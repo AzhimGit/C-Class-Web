@@ -68,9 +68,9 @@
             </h1>
             <p class="text-gray-400 mt-1">
                 @if($currentUser->role === 'admin')
-                    Kelola semua user (Manager & Ketua)
+                    Kelola semua user 
                 @else
-                    Kelola akun Ketua divisi
+                    Kelola akun Ketua 
                 @endif
             </p>
         </div>
@@ -267,8 +267,21 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-1">Password</label>
                     <input type="password" name="password" required minlength="8"
-                           class="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
-                           placeholder="Minimal 8 karakter">
+                        class="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition @error('password') border-red-500 @enderror"
+                        placeholder="Minimal 8 karakter">
+                    @error('password')
+                        <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Konfirmasi Password</label>
+                    <input type="password" name="password_confirmation" required minlength="8"
+                        class="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition @error('password_confirmation') border-red-500 @enderror"
+                        placeholder="Ulangi password yang sama">
+                    @error('password_confirmation')
+                        <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 
                 <div>
@@ -280,11 +293,6 @@
                             <option value="{{ $key }}">{{ $label }}</option>
                         @endforeach
                     </select>
-                    @if($currentUser->role === 'admin')
-                        <p class="text-xs text-gray-500 mt-1">💡 Anda dapat membuat user dengan role Manager atau Ketua</p>
-                    @else
-                        <p class="text-xs text-gray-500 mt-1">💡 Sebagai Manager, Anda hanya dapat membuat akun Ketua</p>
-                    @endif
                 </div>
                 
                 <div class="flex gap-3 pt-4">
