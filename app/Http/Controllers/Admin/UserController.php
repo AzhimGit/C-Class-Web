@@ -142,7 +142,7 @@ class UserController extends Controller
         return back()->with('success', "User berhasil dibuat sebagai {$roleLabel}! 🎉");
     }
 
-    public function updateRole(Request $request, User $target)
+    public function updateRole(Request $request, User $user)
     {
         $editor = auth()->user();
 
@@ -150,15 +150,15 @@ class UserController extends Controller
             return redirect()->route('login');
         }
 
-        if ($target->id === $editor->id) {
+        if ($user->id === $editor->id) {
             return back()->with('error', 'Anda tidak dapat mengubah role akun Anda sendiri.');
         }
 
-        if (!$this->canEditUser($editor, $target)) {
+        if (!$this->canEditUser($editor, $user)) {
             if ($editor->role === 'manager') {
                 return back()->with('error', 'Manager hanya dapat mengubah role Ketua.');
             }
-            if ($editor->role === 'admin' && $target->role === 'admin') {
+            if ($editor->role === 'admin' && $user->role === 'admin') {
                 return back()->with('error', 'Admin tidak dapat mengubah role admin lain.');
             }
 
@@ -171,14 +171,14 @@ class UserController extends Controller
             'role' => 'required|in:' . implode(',', $assignableRoles),
         ]);
 
-        $target->update(['role' => $request->role]);
+        $user->update(['role' => $request->role]);
 
         $roleLabel = config('roles.list.' . $request->role) ?? ucfirst($request->role);
 
-        return back()->with('success', "Role {$target->name} berhasil diubah menjadi {$roleLabel}! ✨");
+        return back()->with('success', "Role {$user->name} berhasil diubah menjadi {$roleLabel}! ✨");
     }
 
-    public function destroy(User $target)
+    public function destroy(User $user)
     {
         $editor = auth()->user();
 
@@ -186,22 +186,22 @@ class UserController extends Controller
             return redirect()->route('login');
         }
 
-        if ($target->id === $editor->id) {
+        if ($user->id === $editor->id) {
             return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
 
-        if (!$this->canDeleteUser($editor, $target)) {
+        if (!$this->canDeleteUser($editor, $user)) {
             if ($editor->role === 'manager') {
                 return back()->with('error', 'Manager hanya dapat menghapus akun Ketua.');
             }
-            if ($editor->role === 'admin' && $target->role === 'admin') {
+            if ($editor->role === 'admin' && $user->role === 'admin') {
                 return back()->with('error', 'Admin tidak dapat menghapus admin lain.');
             }
 
             return back()->with('error', 'Anda tidak memiliki izin untuk menghapus user ini.');
         }
 
-        $target->delete();
+        $user->delete();
 
         return back()->with('success', 'User berhasil dihapus! 🗑️');
     }
