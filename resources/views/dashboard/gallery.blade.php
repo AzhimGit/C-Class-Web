@@ -129,11 +129,11 @@
             <div class="gallery-item group bg-gray-700/60 rounded-xl overflow-hidden border border-gray-600 hover:border-emerald-500/50 cursor-pointer"
                  data-title="{{ strtolower($item->title) }}"
                  style="animation-delay: {{ $index * 0.05 }}s"
-                 onclick="openLightbox({{ $item->id }}, '{{ asset('storage/' . $item->image) }}', '{{ addslashes($item->title) }}', '{{ $item->created_at->format('d M Y, H:i') }}')">
+                 onclick="openLightbox({{ $item->id }}, '{{ asset($item->image) }}', '{{ addslashes($item->title) }}', '{{ $item->created_at->format('d M Y, H:i') }}')">
                 
                 <div class="aspect-square overflow-hidden bg-gray-800 relative">
                     <div class="absolute inset-0 skeleton"></div>
-                    <img src="{{ asset('storage/' . $item->image) }}" 
+                    <img src="{{ asset($item->image) }}" 
                          alt="{{ $item->title }}"
                          loading="lazy"
                          class="gallery-img w-full h-full object-cover"
@@ -144,7 +144,7 @@
                         <p class="text-gray-300 text-xs">{{ $item->created_at->format('d M Y') }}</p>
                         <div class="flex gap-2 mt-2">
                             <button class="flex-1 px-2 py-1.5 bg-white/20 hover:bg-white/30 text-white text-xs rounded-lg backdrop-blur-sm transition"
-                                    onclick="event.stopPropagation(); openLightbox({{ $item->id }}, '{{ asset('storage/' . $item->image) }}', '{{ addslashes($item->title) }}', '{{ $item->created_at->format('d M Y, H:i') }}')">
+                                    onclick="event.stopPropagation(); openLightbox({{ $item->id }}, '{{ asset($item->image) }}', '{{ addslashes($item->title) }}', '{{ $item->created_at->format('d M Y, H:i') }}')">
                                  Lihat
                             </button>
                             <form action="{{ route('gallery.destroy', $item->id) }}" method="POST" class="delete-form" onsubmit="event.stopPropagation()">
@@ -294,7 +294,7 @@
         $galleryJson = $galleries->map(fn($g) => [
             'id' => $g->id,
             'title' => $g->title,
-            'image' => asset('storage/' . $g->image),
+            'image' => asset($g->image),
             'created_at' => $g->created_at->format('d M Y, H:i')
         ])->values();
     @endphp

@@ -371,7 +371,7 @@
                     @foreach($latestPhotos as $photo)
                     <div class="photo-card group relative aspect-square rounded-lg overflow-hidden bg-gray-800 cursor-pointer"
                          onclick="window.location='{{ route('dashboard.gallery') }}'">
-                        <img src="{{ asset('storage/' . $photo->image) }}" 
+                        <img src="{{ asset($photo->image) }}" 
                              alt="{{ $photo->title }}"
                              loading="lazy"
                              class="photo-img w-full h-full object-cover">

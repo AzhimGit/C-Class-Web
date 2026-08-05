@@ -94,7 +94,6 @@
                     {{ session('success') }}
                 </div>
             @endif
-
             @if($galleries->count() > 0)
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
                     @foreach($galleries as $item)
@@ -102,7 +101,7 @@
                                     hover:border-gray-200 hover:shadow-xl transition-all duration-300
                                     hover:-translate-y-1">
                             <div class="aspect-square overflow-hidden bg-gray-50 relative">
-                                <img src="{{ asset('storage/' . $item->image) }}" 
+                                <img src="{{ asset($item->image) }}" 
                                     alt="{{ $item->title }}" loading="lazy"
                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                                 

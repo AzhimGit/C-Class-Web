@@ -114,10 +114,10 @@
 
                     @if($announcement->hasImage())
                     <div class="mb-3">
-                        <img src="{{ asset('storage/' . $announcement->image) }}" 
+                        <img src="{{ asset($announcement->image) }}" 
                              alt="{{ $announcement->title }}" loading="lazy"
                              class="w-full max-h-64 object-cover rounded-lg cursor-pointer hover:opacity-90 transition"
-                             onclick="window.open('{{ asset('storage/' . $announcement->image) }}', '_blank')">
+                             onclick="window.open('{{ asset($announcement->image) }}', '_blank')">
                     </div>
                     @endif
 

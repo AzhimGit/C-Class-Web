@@ -137,13 +137,13 @@
                 <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
                     @foreach($galleries as $index => $item)
                         <div class="gallery-card group bg-gray-800 rounded-xl overflow-hidden border border-gray-600 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 cursor-pointer"
-                             onclick="openLightbox({{ $item->id }}, '{{ asset('storage/' . $item->image) }}', '{{ addslashes($item->title) }}', '{{ $item->created_at->format('d M Y, H:i') }}')"
+                             onclick="openLightbox({{ $item->id }}, '{{ asset($item->image) }}', '{{ addslashes($item->title) }}', '{{ $item->created_at->format('d M Y, H:i') }}')"
                              style="animation-delay: {{ $index * 0.05 }}s">
 
                             <div class="aspect-square overflow-hidden bg-gray-700 relative">
                                 <div class="absolute inset-0 bg-gray-700 animate-pulse skeleton"></div>
 
-                                <img src="{{ asset('storage/' . $item->image) }}"
+                                <img src="{{ asset($item->image) }}"
                                      alt="{{ $item->title }}"
                                      loading="lazy"
                                      class="gallery-img w-full h-full object-cover"
@@ -242,7 +242,7 @@
             $galleryJson = $galleries->map(fn($g) => [
                 'id' => $g->id,
                 'title' => $g->title,
-                'image' => asset('storage/' . $g->image),
+                'image' => asset($g->image),
                 'created_at' => $g->created_at->timestamp,
                 'date_formatted' => $g->created_at->format('Y-m-d')
             ]);
