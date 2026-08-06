@@ -70,7 +70,7 @@ class GalleryController extends Controller
             'image' => $path,
         ]);
 
-        return back()->with('success', 'Gambar berhasil diupload & dikompresi! 🎉');
+        return back()->with('success', 'Gambar berhasil diupload & dikompresi!');
     }
 
     public function storePublic(Request $request)
@@ -120,7 +120,7 @@ class GalleryController extends Controller
 
         $gallery->delete();
 
-        return redirect()->route('dashboard.gallery')->with('success', 'Gambar berhasil dihapus! 🗑️');
+        return redirect()->route('dashboard.gallery')->with('success', 'Gambar berhasil dihapus!');
     }
 
     private function isVideoFile($file): bool

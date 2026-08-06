@@ -118,11 +118,13 @@
                                class="w-48 md:w-64 px-4 py-2.5 pl-10 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-sm">
                         <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <a href="{{ route('galeri.create') }}"
-                       class=" inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition shadow-md hover:shadow-lg active:scale-95">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <button onclick="openUploadModal()"
+                            class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition shadow-md hover:shadow-lg active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
                         Upload
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -170,11 +172,13 @@
                     </div>
                     <h3 class="text-xl font-semibold text-white mb-2">Gallery masih kosong</h3>
                     <p class="text-gray-400 text-sm mb-6 max-w-sm mx-auto">Mulai koleksi dokumentasi kamu dengan mengupload gambar pertama</p>
-                    <a href="{{ route('gallery.createdoksli') }}"
-                       class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition shadow-md">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        Upload Gambar Pertama
-                    </a>
+                    <button onclick="openUploadModal()"
+                            class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition shadow-md hover:shadow-lg active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Upload
+                    </button>
                 </div>
             @endif
 
@@ -237,6 +241,86 @@
         </div>
     </footer>
 
+    <div id="uploadModal" class="fixed inset-0 z-[90] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 transition-opacity duration-300">
+        <div class="bg-gray-800 rounded-2xl border border-gray-700 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-300 scale-95 opacity-0" id="uploadModalContent">
+            
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-900/40 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Upload Doksli Baru</h3>
+                        <p class="text-xs text-gray-400">Tambahkan foto ke galeri kelas</p>
+                    </div>
+                </div>
+                <button onclick="closeUploadModal()" class="text-gray-400 hover:text-white transition p-1 rounded-lg hover:bg-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="uploadForm" action="{{ route('galeri.store') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-5">
+                @csrf
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        Judul Foto <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text" name="title" id="uploadTitle" required maxlength="255"
+                        class="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+                        placeholder="Contoh: Dava lagi ngabuburit">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        Gambar <span class="text-red-400">*</span>
+                    </label>
+                    <div id="dropZone" class="border-2 border-dashed border-gray-600 rounded-xl p-6 text-center cursor-pointer hover:border-emerald-500 hover:bg-gray-700/30 transition-all duration-200 relative">
+                        <input type="file" name="image" id="uploadImage" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                        
+                        <div id="dropZoneContent" class="pointer-events-none">
+                            <svg class="w-12 h-12 mx-auto text-gray-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <p class="text-sm text-gray-400 mb-1">
+                                <span class="text-emerald-400 font-medium">Klik untuk pilih</span> atau drag & drop
+                            </p>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF, WEBP (Maks. 5MB)</p>
+                        </div>
+
+                        <div id="imagePreview" class="hidden">
+                            <img id="previewImg" src="" alt="Preview" class="max-h-48 mx-auto rounded-lg shadow-lg">
+                            <p id="fileName" class="text-xs text-gray-400 mt-2 truncate"></p>
+                            <button type="button" onclick="removeImage(event)" class="mt-2 text-xs text-red-400 hover:text-red-300 font-medium">
+                                Hapus gambar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="uploadError" class="hidden p-3 bg-red-900/30 border border-red-700 rounded-lg text-red-300 text-sm"></div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeUploadModal()"
+                            class="flex-1 px-4 py-2.5 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium rounded-lg transition">
+                        Batal
+                    </button>
+                    <button type="submit" id="submitBtn"
+                            class="flex-1 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <span id="submitText">Upload</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <script>
         @php
             $galleryJson = $galleries->map(fn($g) => [
@@ -391,6 +475,133 @@
         @if(session('success'))
             Swal.fire({ icon: 'success', title: 'Berhasil', text: '{{ session('success') }}', timer: 3000, showConfirmButton: false, background: '#1f2937', color: '#fff', position: 'top-end', toast: true });
         @endif
+
+        const uploadModal = document.getElementById('uploadModal');
+        const uploadModalContent = document.getElementById('uploadModalContent');
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadImage = document.getElementById('uploadImage');
+        const imagePreview = document.getElementById('imagePreview');
+        const dropZoneContent = document.getElementById('dropZoneContent');
+        const previewImg = document.getElementById('previewImg');
+        const fileName = document.getElementById('fileName');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = document.getElementById('submitText');
+        const uploadError = document.getElementById('uploadError');
+
+        function openUploadModal() {
+            uploadModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            setTimeout(() => {
+                uploadModalContent.classList.remove('scale-95', 'opacity-0');
+                uploadModalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeUploadModal() {
+            uploadModalContent.classList.remove('scale-100', 'opacity-100');
+            uploadModalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                uploadModal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+                resetUploadForm();
+            }, 200);
+        }
+
+        function resetUploadForm() {
+            uploadForm.reset();
+            imagePreview.classList.add('hidden');
+            dropZoneContent.classList.remove('hidden');
+            uploadError.classList.add('hidden');
+            submitBtn.disabled = false;
+            submitText.textContent = 'Upload';
+        }
+
+        function removeImage(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadImage.value = '';
+            imagePreview.classList.add('hidden');
+            dropZoneContent.classList.remove('hidden');
+        }
+
+        uploadImage.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    uploadError.textContent = 'Ukuran file maksimal 5MB';
+                    uploadError.classList.remove('hidden');
+                    uploadImage.value = '';
+                    return;
+                }
+                if (!file.type.startsWith('image/')) {
+                    uploadError.textContent = 'File harus berupa gambar';
+                    uploadError.classList.remove('hidden');
+                    uploadImage.value = '';
+                    return;
+                }
+
+                uploadError.classList.add('hidden');
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImg.src = event.target.result;
+                    fileName.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+                    dropZoneContent.classList.add('hidden');
+                    imagePreview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const dropZone = document.getElementById('dropZone');
+        ['dragenter', 'dragover'].forEach(event => {
+            dropZone.addEventListener(event, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-emerald-500', 'bg-gray-700/30');
+            });
+        });
+        ['dragleave', 'drop'].forEach(event => {
+            dropZone.addEventListener(event, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-emerald-500', 'bg-gray-700/30');
+            });
+        });
+        dropZone.addEventListener('drop', (e) => {
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                uploadImage.files = e.dataTransfer.files;
+                uploadImage.dispatchEvent(new Event('change'));
+            }
+        });
+
+        uploadForm.addEventListener('submit', function(e) {
+            const title = document.getElementById('uploadTitle').value.trim();
+            const image = uploadImage.files[0];
+            
+            if (!title || !image) {
+                e.preventDefault();
+                uploadError.textContent = 'Judul dan gambar wajib diisi';
+                uploadError.classList.remove('hidden');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitText.innerHTML = `
+                <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Uploading...
+            `;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !uploadModal.classList.contains('hidden')) {
+                closeUploadModal();
+            }
+        });
+        uploadModal.addEventListener('click', (e) => {
+            if (e.target === uploadModal) closeUploadModal();
+        });
     </script>
 </body>
 </html>

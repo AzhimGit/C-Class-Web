@@ -27,10 +27,6 @@ Route::get('/galeri', function () {
     return view('galeri', compact('galleries'));
 })->name('galeri');
 
-Route::get('/galeri/create', function () {
-    return view('galericreate');
-})->name('galeri.create');
-
 Route::post('/galeri', [GalleryController::class, 'storePublic'])->name('galeri.store');
 
 Route::get('/about', function () {
