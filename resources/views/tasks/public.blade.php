@@ -4,29 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalender Tugas - Informatika CFI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    @include('partials.theme')
+
     <style>
-        #taskModal {
-            transition: opacity 0.3s ease;
-        }
-        #taskModal.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        #taskModal { transition: opacity 0.3s ease; }
+        #taskModal.hidden { opacity: 0; pointer-events: none; }
 
         #taskModal ::-webkit-scrollbar { width: 6px; }
-        #taskModal ::-webkit-scrollbar-track { background: rgba(55, 65, 81, 0.3); border-radius: 3px; }
-        #taskModal ::-webkit-scrollbar-thumb { background: rgba(75, 85, 99, 0.8); border-radius: 3px; }
-        #taskModal ::-webkit-scrollbar-thumb:hover { background: rgba(107, 114, 128, 1); }
+        #taskModal ::-webkit-scrollbar-track { background: rgba(229,231,235,0.3); border-radius: 3px; }
+        #taskModal ::-webkit-scrollbar-thumb { background: rgba(156,163,175,0.8); border-radius: 3px; }
+        #taskModal ::-webkit-scrollbar-thumb:hover { background: rgba(107,114,128,1); }
 
-        body.modal-open { overflow: hidden; }
-        #taskModal .overflow-y-auto { -webkit-overflow-scrolling: touch; }
-        
+        html.dark #taskModal ::-webkit-scrollbar-track { background: rgba(55,65,81,0.3); }
+        html.dark #taskModal ::-webkit-scrollbar-thumb { background: rgba(75,85,99,0.8); }
+        html.dark #taskModal ::-webkit-scrollbar-thumb:hover { background: rgba(107,114,128,1); }
+
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(31,41,55,0.4); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb { background: rgba(75,85,99,0.8); border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: rgba(229,231,235,0.4); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(156,163,175,0.8); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(107,114,128,1); }
-        html { scrollbar-width: thin; scrollbar-color: rgba(75,85,99,0.8) rgba(31,41,55,0.4); }
+        html { scrollbar-width: thin; scrollbar-color: rgba(156,163,175,0.8) rgba(229,231,235,0.4); }
+
+        html.dark ::-webkit-scrollbar-track { background: rgba(31,41,55,0.4); }
+        html.dark ::-webkit-scrollbar-thumb { background: rgba(75,85,99,0.8); }
+        html.dark { scrollbar-color: rgba(75,85,99,0.8) rgba(31,41,55,0.4); }
         
         html { scroll-behavior: smooth; }
         body { padding-top: 72px; }
@@ -43,21 +45,24 @@
             min-height: 100px;
             transition: all 0.2s;
             position: relative;
+            background-color: #ffffff;
         }
-        .calendar-day:hover {
-            background-color: rgba(55, 65, 81, 0.5);
-        }
+        .calendar-day:hover { background-color: rgba(229, 231, 235, 0.5); }
         .calendar-day.today {
+            background-color: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .calendar-day.other-month { opacity: 0.4; }
+
+        /* Dark mode calendar */
+        html.dark .calendar-day { background-color: #1f2937; }
+        html.dark .calendar-day:hover { background-color: rgba(55, 65, 81, 0.5); }
+        html.dark .calendar-day.today {
             background-color: rgba(16, 185, 129, 0.1);
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
-        .calendar-day.other-month {
-            opacity: 0.4;
-        }
         
-        .task-badge {
-            animation: slideIn 0.3s ease-out;
-        }
+        .task-badge { animation: slideIn 0.3s ease-out; }
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(-10px); }
             to { opacity: 1; transform: translateX(0); }
@@ -68,58 +73,60 @@
             .task-badge-mobile { font-size: 0.65rem; padding: 0.1rem 0.3rem; }
         }
         
-        .month-btn {
-            transition: all 0.2s ease;
-        }
+        .month-btn { transition: all 0.2s ease; }
         .month-btn:hover:not(:disabled) {
             transform: scale(1.05);
+            background-color: rgba(229, 231, 235, 0.8);
+        }
+        html.dark .month-btn:hover:not(:disabled) {
             background-color: rgba(55, 65, 81, 0.8);
         }
-        .month-btn:active:not(:disabled) {
-            transform: scale(0.95);
-        }
+        .month-btn:active:not(:disabled) { transform: scale(0.95); }
         
-        .calendar-fade-in {
-            animation: fadeIn 0.3s ease-out;
-        }
+        .calendar-fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        body.modal-open { overflow: hidden; }
     </style>
 </head>
-<body class="bg-gray-800 min-h-screen flex flex-col">
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col transition-colors">
 
-    <nav class="fixed top-0 left-0 right-0 h-16 bg-gray-800/80 backdrop-blur-md text-white shadow-lg z-50 flex items-center justify-between px-4 md:px-20 transition-all duration-300 border-b border-gray-700/50">
+    <nav class="fixed top-0 left-0 right-0 h-16 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-900 dark:text-white shadow-lg z-50 flex items-center justify-between px-4 md:px-20 transition-all duration-300 border-b border-gray-200 dark:border-gray-700/50">
         <div class="flex items-center gap-4">
-            <button id="sidebarToggle" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-1">
+            <button id="sidebarToggle" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none p-1">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
             <a href="{{ route('home') }}" class="text-xl font-bold tracking-wide flex items-center gap-2">
-                <span class="text-emerald-500">❯</span> Informatika CFI
+                <span class="text-emerald-600 dark:text-emerald-500">❯</span> Informatika CFI
             </a>
         </div>
-        <div class="hidden md:flex items-center gap-2">
-            <a href="{{ route('home') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Home</a>
-            <a href="{{ route('tasks.public') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('tasks.public') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Task</a>
-            <a href="{{ route('galeri') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('galeri') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Gallery</a>
-            <a href="{{ route('about') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">About</a>
+        <div class="flex items-center gap-1 md:gap-2">
+            <div class="hidden md:flex items-center gap-2">
+                <a href="{{ route('home') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Home</a>
+                <a href="{{ route('tasks.public') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('tasks.public') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Task</a>
+                <a href="{{ route('galeri') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('galeri') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Gallery</a>
+                <a href="{{ route('about') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">About</a>
+            </div>
+            @include('partials.theme-toggle')
         </div>
     </nav>
 
     <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
-        <div class="p-6 border-b border-gray-700 flex items-center justify-between">
+    <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 text-gray-900 dark:text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
             <span class="text-lg font-bold">Menu</span>
-            <button id="sidebarClose" class="text-gray-400 hover:text-white">
+            <button id="sidebarClose" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
         <div class="p-4 flex flex-col gap-2">
-            <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600' : '' }}">Home</a>
-            <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600' : '' }}">Task</a>
-            <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600' : '' }}">Gallery</a>
-            <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('about') ? 'bg-emerald-600' : '' }}">About</a>
+            <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600 text-white' : '' }}">Home</a>
+            <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600 text-white' : '' }}">Task</a>
+            <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600 text-white' : '' }}">Gallery</a>
+            <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('about') ? 'bg-emerald-600 text-white' : '' }}">About</a>
         </div>
     </div>
 
@@ -128,17 +135,17 @@
             
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-white">Kalender Tugas</h1>
-                    <p class="text-gray-400 text-sm mt-1">Kelola dan lihat jadwal tugas</p>
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Kalender Tugas</h1>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Kelola dan lihat jadwal tugas</p>
                 </div>
                 
-                <div class="flex bg-gray-700/60 p-1 rounded-full border border-gray-600">
+                <div class="flex w-full sm:w-auto bg-gray-200/70 dark:bg-gray-700/60 p-1 rounded-full border border-gray-300 dark:border-gray-600 justify-center">
                     <a href="{{ route('tasks.public', ['status' => 'active']) }}" 
-                       class="px-4 py-2 rounded-full text-sm font-medium transition {{ $status === 'active' ? 'bg-emerald-600 text-white' : 'text-gray-400 hover:text-white' }}">
+                    class="flex-1 sm:flex-none px-4 py-2 rounded-full text-sm font-medium transition text-center flex items-center justify-center {{ $status === 'active' ? 'bg-emerald-600 text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
                         Aktif
                     </a>
                     <a href="{{ route('tasks.public', ['status' => 'expired']) }}" 
-                       class="px-4 py-2 rounded-full text-sm font-medium transition {{ $status === 'expired' ? 'bg-red-600 text-white' : 'text-gray-400 hover:text-white' }}">
+                    class="flex-1 sm:flex-none px-4 py-2 rounded-full text-sm font-medium transition text-center flex items-center justify-center {{ $status === 'expired' ? 'bg-red-600 text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
                         Terlewat
                     </a>
                 </div>
@@ -147,23 +154,23 @@
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
                 
                 <div class="lg:col-span-1 space-y-4">
-                    <div class="bg-gray-700/60 rounded-xl border border-gray-600 p-3">
-                        <h3 class="font-semibold text-white mb-3 flex items-center gap-2">
+                    <div class="bg-white dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-600 p-3 shadow-sm">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                             @if($status === 'active')
-                                <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                                 Tugas Aktif
                             @else
-                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <svg class="w-4 h-4 text-red-600 dark:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 Tugas Terlewat
                             @endif
                         </h3>
                         
                         <div class="space-y-2 max-h-96 overflow-y-auto">
                             @forelse($tasks->take(5) as $task)
-                            <div class="p-2 bg-gray-800 rounded-lg border border-gray-600 hover:border-emerald-500/50 transition cursor-pointer" onclick="openTaskModal({{ $task->id }})">
-                                <p class="text-white text-sm font-medium truncate">{{ $task->title }}</p>
-                                <p class="text-gray-400 text-xs">{{ $task->course_name }}</p>
-                                <div class="flex items-center gap-1 mt-1 text-xs {{ $status === 'active' ? 'text-emerald-400' : 'text-red-400' }}">
+                            <div class="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 hover:border-emerald-400 dark:hover:border-emerald-500/50 transition cursor-pointer" onclick="openTaskModal({{ $task->id }})">
+                                <p class="text-gray-900 dark:text-white text-sm font-medium truncate">{{ $task->title }}</p>
+                                <p class="text-gray-600 dark:text-gray-400 text-xs">{{ $task->course_name }}</p>
+                                <div class="flex items-center gap-1 mt-1 text-xs {{ $status === 'active' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400' }}">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     @if($status === 'active')
                                         {{ $task->deadline_at->diffForHumans() }}
@@ -173,30 +180,30 @@
                                 </div>
                             </div>
                             @empty
-                            <p class="text-gray-500 text-sm text-center py-4">
+                            <p class="text-gray-500 dark:text-gray-400 text-sm text-center py-4">
                                 Tidak ada tugas {{ $status === 'active' ? 'aktif' : 'terlewat' }}
                             </p>
                             @endforelse
                             
                             @if($tasks->count() > 5)
-                            <p class="text-gray-400 text-xs text-center mt-2">+{{ $tasks->count() - 5 }} lainnya</p>
+                            <p class="text-gray-500 dark:text-gray-400 text-xs text-center mt-2">+{{ $tasks->count() - 5 }} lainnya</p>
                             @endif
                         </div>
                     </div>
                 </div>
 
                 <div class="lg:col-span-3">
-                    <div class="bg-gray-700/60 rounded-xl border border-gray-600 p-4 md:p-6">
+                    <div class="bg-white dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-600 p-4 md:p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-bold text-white" id="calendarTitle">April 2026</h2>
+                            <h2 class="text-xl font-bold text-gray-900 dark:text-white" id="calendarTitle">April 2026</h2>
                             <div class="flex gap-2">
-                                <button onclick="changeMonth(-1)" class="month-btn p-2 rounded-lg text-gray-400 hover:text-white transition border border-gray-600">
+                                <button onclick="changeMonth(-1)" class="month-btn p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                                 </button>
-                                <button onclick="goToToday()" class="month-btn px-3 py-2 rounded-lg text-gray-300 hover:text-white transition border border-gray-600 text-sm font-medium hidden sm:block">
+                                <button onclick="goToToday()" class="month-btn px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600 text-sm font-medium hidden sm:block">
                                     Hari Ini
                                 </button>
-                                <button onclick="changeMonth(1)" class="month-btn p-2 rounded-lg text-gray-400 hover:text-white transition border border-gray-600">
+                                <button onclick="changeMonth(1)" class="month-btn p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                 </button>
                             </div>
@@ -213,82 +220,82 @@
     <div id="taskModal" class="fixed inset-0 z-[70] hidden flex items-end sm:items-center justify-center">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeTaskModal()"></div>
 
-        <div class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
+        <div class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-white dark:bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
             
-            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700 bg-gray-800 flex-shrink-0">
-                <h3 class="text-lg font-bold text-white">Detail Tugas</h3>
-                <button onclick="closeTaskModal()" class="text-gray-400 hover:text-white transition p-2 hover:bg-gray-700 rounded-lg -mr-2">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex-shrink-0">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Detail Tugas</h3>
+                <button onclick="closeTaskModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg -mr-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-white dark:bg-gray-900">
 
                 <div class="flex flex-wrap items-center gap-2">
                     <span id="modalStatus" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
-                    <span id="modalCourse" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-900/30 text-emerald-400 text-sm font-medium rounded-full border border-emerald-800/30"></span>
+                    <span id="modalCourse" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-sm font-medium rounded-full border border-emerald-200 dark:border-emerald-800/30"></span>
                     <span id="modalCategory" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
                 </div>
 
                 <div>
-                    <h2 id="modalTitle" class="text-xl font-bold text-white leading-tight mb-3"></h2>
-                    <h4 class="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                    <h2 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white leading-tight mb-3"></h2>
+                    <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
                         Deskripsi Tugas
                     </h4>
-                    <div id="modalDescription" class="bg-gray-700/50 rounded-lg p-4 text-gray-300 text-sm leading-relaxed border border-gray-600 max-h-48 overflow-y-auto"></div>
+                    <div id="modalDescription" class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 text-gray-700 dark:text-gray-300 text-sm leading-relaxed border border-gray-200 dark:border-gray-600 max-h-48 overflow-y-auto"></div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
-                        <div class="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                    <div class="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
+                        <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs mb-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Mulai
                         </div>
-                        <p id="modalStarts" class="text-white text-sm font-medium"></p>
+                        <p id="modalStarts" class="text-gray-900 dark:text-white text-sm font-medium"></p>
                     </div>
-                    <div class="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
-                        <div class="flex items-center gap-2 text-orange-300 text-xs mb-1">
+                    <div class="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
+                        <div class="flex items-center gap-2 text-orange-500 dark:text-orange-300 text-xs mb-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Deadline
                         </div>
-                        <p id="modalDeadline" class="text-white text-sm font-medium"></p>
+                        <p id="modalDeadline" class="text-gray-900 dark:text-white text-sm font-medium"></p>
                     </div>
                 </div>
 
                 <div id="modalLinks" class="space-y-2">
-                    <h4 class="text-sm font-semibold text-gray-300 mb-2">Link Terkait</h4>
+                    <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Link Terkait</h4>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
+            <div class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
                 <div class="px-4 py-2.5 flex items-center justify-between gap-3 flex-shrink-0">
-                    <span id="modalCreator" class="text-gray-400 text-xs font-medium truncate"></span>
-                    <span class="text-gray-400 text-xs font-medium truncate"> · </span>
-                    <span id="modalRole" class="text-gray-500 text-xs truncate text-right"></span>
+                    <span id="modalCreator" class="text-gray-600 dark:text-gray-400 text-xs font-medium truncate"></span>
+                    <span class="text-gray-600 dark:text-gray-400 text-xs font-medium truncate"> · </span>
+                    <span id="modalRole" class="text-gray-500 dark:text-gray-500 text-xs truncate text-right"></span>
                 </div>
-                <button onclick="closeTaskModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded-lg transition flex-shrink-0">
+                <button onclick="closeTaskModal()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white text-xs font-medium rounded-lg transition flex-shrink-0">
                     Tutup
                 </button>
             </div>
         </div>
     </div>
 
-    <footer class="bg-gray-900 border-t border-gray-800 py-8 mt-auto">
+    <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 mt-auto transition-colors">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <div class="flex justify-center items-center gap-2 mb-4">
-                <span class="text-emerald-500 font-bold text-xl">❯</span>
-                <span class="text-white font-semibold">Informatika CFI</span>
+                <span class="text-emerald-600 dark:text-emerald-500 font-bold text-xl">❯</span>
+                <span class="text-gray-900 dark:text-white font-semibold">Informatika CFI</span>
             </div>
-            <p class="text-gray-400 text-sm mb-4">
+            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
                 Platform manajemen tugas & doksli untuk mahasiswa Informatika.
             </p>
-            <div class="flex justify-center item-center gap-2 mb-6">
-                <a class="text-gray-400 hover:text-emerald-400 text-sm transition">Dibuat dengan</a>
-                <a class="text-red-500 text-lg leading-none hover:scale-110 transition flex items-center">❤️</a>
-                <a class="text-gray-400 hover:text-emerald-400 text-sm transition">oleh Engginer</a>
+            <div class="flex justify-center items-center gap-2 mb-6">
+                <span class="text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm transition">Dibuat dengan</span>
+                <span class="text-red-500 text-lg leading-none hover:scale-110 transition flex items-center">❤️</span>
+                <span class="text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm transition">oleh Engginer</span>
             </div>
-            <p class="text-gray-500 text-xs">
+            <p class="text-gray-500 dark:text-gray-500 text-xs">
                 &copy; {{ date('Y') }} Informatika CFI. All rights reserved.
             </p>
         </div>
@@ -315,6 +322,7 @@
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const title = document.getElementById('calendarTitle');
+            const isDark = document.documentElement.classList.contains('dark');
             
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
@@ -328,10 +336,21 @@
             const today = new Date();
             const todayStr = today.toISOString().split('T')[0];
             
-            let html = '<div class="grid grid-cols-7 gap-px bg-gray-700 border border-gray-600 rounded-lg overflow-hidden">';
+            // Class yang berbeda untuk light/dark
+            const gridClass = isDark 
+                ? 'bg-gray-700 border border-gray-600' 
+                : 'bg-gray-200 border border-gray-300';
+            const headerClass = isDark 
+                ? 'bg-gray-800 text-gray-400' 
+                : 'bg-gray-100 text-gray-600';
+            const dayNumLight = isDark ? 'text-white' : 'text-gray-900';
+            const dayNumOther = isDark ? 'text-gray-500' : 'text-gray-400';
+            const todayNumClass = 'text-emerald-600 dark:text-emerald-400';
+
+            let html = `<div class="grid grid-cols-7 gap-px ${gridClass} rounded-lg overflow-hidden">`;
             
             DAYS_ID.forEach(day => {
-                html += `<div class="bg-gray-800 p-2 text-center text-xs font-medium text-gray-400">${day}</div>`;
+                html += `<div class="${headerClass} p-2 text-center text-xs font-medium">${day}</div>`;
             });
             
             const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
@@ -358,22 +377,23 @@
                 
                 const dayTasks = getTasksForDate(dateObj);
                 
-                html += `<div class="calendar-day bg-gray-800 p-2 ${isToday ? 'today' : ''} ${!isCurrentMonth ? 'other-month' : ''}">`;
-                html += `<span class="text-sm font-medium ${isToday ? 'text-emerald-400' : (isCurrentMonth ? 'text-white' : 'text-gray-500')}">${dayNum}</span>`;
+                html += `<div class="calendar-day p-2 ${isToday ? 'today' : ''} ${!isCurrentMonth ? 'other-month' : ''}">`;
+                html += `<span class="text-sm font-medium ${isToday ? todayNumClass : (isCurrentMonth ? dayNumLight : dayNumOther)}">${dayNum}</span>`;
                 
                 if (dayTasks.length > 0) {
                     html += '<div class="mt-1 space-y-1">';
                     const showTasks = dayTasks.slice(0, 3);
                     showTasks.forEach(task => {
                         const isExpired = new Date(task.deadline_at) < new Date();
+                        // Badge colors untuk light & dark mode
                         const badgeClass = isExpired 
-                            ? 'bg-red-900/40 text-red-300 border border-red-700/50' 
-                            : 'bg-emerald-900/40 text-emerald-300 border border-emerald-700/50';
+                            ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-700/50' 
+                            : 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700/50';
                         const taskTitle = task.title.length > 20 ? task.title.substring(0, 20) + '...' : task.title;
                         html += `<div class="task-badge p-1 rounded text-[10px] md:text-xs truncate cursor-pointer hover:opacity-80 transition ${badgeClass}" onclick="openTaskModal(${task.id})">${taskTitle}</div>`;
                     });
                     if (dayTasks.length > 3) {
-                        html += `<div class="text-gray-500 text-[10px] pl-1">+${dayTasks.length - 3} lainnya</div>`;
+                        html += `<div class="text-gray-500 dark:text-gray-500 text-[10px] pl-1">+${dayTasks.length - 3} lainnya</div>`;
                     }
                     html += '</div>';
                 }
@@ -414,25 +434,25 @@
 
             const isExpired = new Date(task.deadline_at) < new Date();
             const statusEl = document.getElementById('modalStatus');
-            statusEl.className = `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${isExpired ? 'bg-red-900/30 text-red-400 border-red-800/30' : 'bg-emerald-900/30 text-emerald-400 border-emerald-800/30'}`;
+            statusEl.className = `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${isExpired ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800/30' : 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/30'}`;
             statusEl.innerHTML = isExpired ? '⏳ Deadline Lewat' : 'Aktif';
 
             const categoryEl = document.getElementById('modalCategory');
-            categoryEl.className = `px-2.5 py-1 rounded-full text-xs font-medium border ${task.category === 'kelompok' ? 'bg-blue-900/30 text-blue-400 border-blue-800/30' : 'bg-purple-900/30 text-purple-400 border-purple-800/30'}`;
+            categoryEl.className = `px-2.5 py-1 rounded-full text-xs font-medium border ${task.category === 'kelompok' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800/30' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800/30'}`;
             categoryEl.innerHTML = task.category === 'kelompok' 
                 ? '<span class="inline-flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg><span>Kelompok</span></span>' 
                 : '<span class="inline-flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><span>Individu</span></span>';
             
             const linksContainer = document.getElementById('modalLinks');
-            linksContainer.innerHTML = '<h4 class="text-sm font-semibold text-gray-300 mb-2">Link Terkait</h4>';
+            linksContainer.innerHTML = '<h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Link Terkait</h4>';
             if (task.material_link) {
-                linksContainer.innerHTML += `<a href="${task.material_link}" target="_blank" class="flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition p-2 rounded-lg hover:bg-blue-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>Materi Pembelajaran</a>`;
+                linksContainer.innerHTML += `<a href="${task.material_link}" target="_blank" class="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm transition p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>Materi Pembelajaran</a>`;
             }
             if (task.submission_link) {
-                linksContainer.innerHTML += `<a href="${task.submission_link}" target="_blank" class="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 text-sm transition p-2 rounded-lg hover:bg-emerald-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>Link Pengumpulan</a>`;
+                linksContainer.innerHTML += `<a href="${task.submission_link}" target="_blank" class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm transition p-2 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>Link Pengumpulan</a>`;
             }
             if (!task.material_link && !task.submission_link) {
-                linksContainer.innerHTML += '<p class="text-gray-500 text-sm">Tidak ada link tersedia</p>';
+                linksContainer.innerHTML += '<p class="text-gray-500 dark:text-gray-400 text-sm">Tidak ada link tersedia</p>';
             }
 
             const modal = document.getElementById('taskModal');
@@ -464,6 +484,12 @@
             }, 300);
         }
 
+        // Re-render kalender saat tema berubah agar class dinamis menyesuaikan
+        function observeThemeChange() {
+            const observer = new MutationObserver(() => renderCalendar());
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        }
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeTaskModal();
         });
@@ -488,6 +514,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
+            observeThemeChange();
         });
     </script>
 </body>
