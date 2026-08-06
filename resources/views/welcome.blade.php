@@ -668,7 +668,7 @@
                     <span class="text-gray-400 text-xs font-medium truncate"> · </span>
                     <span id="annModalRole" class="text-gray-500 text-xs truncate text-right"></span>
                 </div>
-                <button onclick="closeTaskModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded-lg transition flex-shrink-0">
+                <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded-lg transition flex-shrink-0">
                     Tutup
                 </button>
             </div>
