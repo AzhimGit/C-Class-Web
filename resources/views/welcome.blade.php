@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard - Class C</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    @include('partials.theme')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
@@ -70,11 +70,11 @@
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(31, 41, 55, 0.4);
+            background: rgba(229, 231, 235, 0.4);
             border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(75, 85, 99, 0.8);
+            background: rgba(156, 163, 175, 0.8);
             border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
@@ -83,6 +83,16 @@
 
         html {
             scrollbar-width: thin;
+            scrollbar-color: rgba(156, 163, 175, 0.8) rgba(229, 231, 235, 0.4);
+        }
+
+        html.dark ::-webkit-scrollbar-track {
+            background: rgba(31, 41, 55, 0.4);
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: rgba(75, 85, 99, 0.8);
+        }
+        html.dark {
             scrollbar-color: rgba(75, 85, 99, 0.8) rgba(31, 41, 55, 0.4);
         }
 
@@ -96,35 +106,6 @@
             transform-origin: right; transition: transform 0.3s ease-in-out;
         }
         .nav-underline:hover::after { transform: scaleX(1); transform-origin: left; }
-
-        @keyframes underline-slide {
-            from { transform: scaleX(0); transform-origin: left; }
-            to { transform: scaleX(1); transform-origin: left; }
-        }
-
-        .nav-underline {
-            position: relative;
-            display: inline-block;
-        }
-
-        .nav-underline::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -3px;
-            width: 100%;
-            height: 4px;
-            border-radius: 9999px;
-            background-color: #10b981;
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .nav-underline:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
 
         @keyframes marquee {
             0% { transform: translateX(0); }
@@ -141,16 +122,28 @@
         }
 
         #taskModal ::-webkit-scrollbar-track {
-            background: rgba(55, 65, 81, 0.3);
+            background: rgba(229, 231, 235, 0.3);
             border-radius: 3px;
         }
 
         #taskModal ::-webkit-scrollbar-thumb {
-            background: rgba(75, 85, 99, 0.8);
+            background: rgba(156, 163, 175, 0.8);
             border-radius: 3px;
         }
 
         #taskModal ::-webkit-scrollbar-thumb:hover {
+            background: rgba(107, 114, 128, 1);
+        }
+
+        html.dark #taskModal ::-webkit-scrollbar-track {
+            background: rgba(55, 65, 81, 0.3);
+        }
+
+        html.dark #taskModal ::-webkit-scrollbar-thumb {
+            background: rgba(75, 85, 99, 0.8);
+        }
+
+        html.dark #taskModal ::-webkit-scrollbar-thumb:hover {
             background: rgba(107, 114, 128, 1);
         }
 
@@ -170,19 +163,30 @@
             position: absolute;
             inset: 0;
             background-image: 
-                linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
             background-size: 50px 50px;
             pointer-events: none;
             z-index: 0;
         }
 
+        html.dark .grid-pattern::before {
+            background-image: 
+                linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+        }
+
         .glass-card {
-            background: rgba(55, 65, 81, 0.4);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(209, 213, 219, 0.5);
             position: relative;
+        }
+
+        html.dark .glass-card {
+            background: rgba(55, 65, 81, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .animated-border {
@@ -271,81 +275,63 @@
 
     <link rel="icon" type="image/png" href="/favicon.png">
 </head>
-<body class="bg-gray-800">
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors">
 
-    <nav class="fixed top-0 left-0 right-0 h-16 bg-gray-800/80 backdrop-blur-md text-white shadow-lg z-50 flex items-center justify-between px-4 md:px-20 transition-all duration-300 border-b border-gray-700/50">
+    <nav class="fixed top-0 left-0 right-0 h-16 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-900 dark:text-white shadow-lg z-50 flex items-center justify-between px-4 md:px-20 transition-all duration-300 border-b border-gray-200 dark:border-gray-700/50">
         <div class="flex items-center gap-4">
-            <button id="sidebarToggle" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-1">
+            <button id="sidebarToggle" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none p-1">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
             <a href="{{ route('home') }}" class="text-xl font-bold tracking-wide flex items-center gap-2">
-                <span class="text-emerald-500">❯</span> Informatika CFI
+                <span class="text-emerald-600 dark:text-emerald-500">❯</span> Informatika CFI
             </a>
         </div>
-        <div class="hidden md:flex items-center gap-2">
-            <a href="{{ route('home') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Home</a>
-            <a href="{{ route('tasks.public') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('tasks.public') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Task</a>
-            <a href="{{ route('galeri') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('galeri') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Gallery</a>
-            <a href="{{ route('about') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">About</a>
+        <div class="flex items-center gap-1 md:gap-2">
+            <div class="hidden md:flex items-center gap-2">
+                <a href="{{ route('home') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Home</a>
+                <a href="{{ route('tasks.public') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('tasks.public') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Task</a>
+                <a href="{{ route('galeri') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('galeri') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Gallery</a>
+                <a href="{{ route('about') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">About</a>
+            </div>
+            @include('partials.theme-toggle')
         </div>
     </nav>
 
     <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
-        <div class="p-6 border-b border-gray-700 flex items-center justify-between">
+    <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 text-gray-900 dark:text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
             <span class="text-lg font-bold">Menu</span>
-            <button id="sidebarClose" class="text-gray-400 hover:text-white">
+            <button id="sidebarClose" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
         <div class="p-4 flex flex-col gap-2">
-            <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600' : '' }}">Home</a>
-            <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600' : '' }}">Task</a>
-            <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600' : '' }}">Gallery</a>
-            <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('about') ? 'bg-emerald-600' : '' }}">About</a>
-        </div>
-    </div>    
-    <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
-        <div class="p-6 border-b border-gray-700 flex items-center justify-between">
-            <span class="text-lg font-bold">Menu</span>
-            <button id="sidebarClose" class="text-gray-400 hover:text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-        <div class="p-4 flex flex-col gap-2">
-            <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600' : '' }}">
-                Home
-            </a>
-            <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600' : '' }}">
-                Task
-            </a>
-            <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600' : '' }}">
-                Gallery
-            </a>            
-            <a href="{{ route('login') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('login') ? 'bg-emerald-600' : '' }}">
-                Login
-            </a>
+            <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600 text-white' : '' }}">Home</a>
+            <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600 text-white' : '' }}">Task</a>
+            <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600 text-white' : '' }}">Gallery</a>
+            <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('about') ? 'bg-emerald-600 text-white' : '' }}">About</a>
+            <a href="{{ route('login') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('login') ? 'bg-emerald-600 text-white' : '' }}">Login</a>
         </div>
     </div>
 
-    <div id="loadingScreen" class="fixed inset-0 z-[100] bg-gray-900 flex flex-col items-center justify-center">
+    <div id="loadingScreen" class="fixed inset-0 z-[100] bg-white dark:bg-gray-900 flex flex-col items-center justify-center">
         <div class="relative mb-6">
-            <span class="text-emerald-500 text-8xl font-bold block animate-pulse">❯</span>
+            <span class="text-emerald-600 dark:text-emerald-500 text-8xl font-bold block animate-pulse">❯</span>
         </div>
-        <p class="text-gray-400 text-sm">Informatika CFI</p>
-        <div class="w-64 h-1 bg-gray-800 rounded-full mt-8 overflow-hidden">
-            <div id="progressBar" class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" style="width: 0%"></div>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">Informatika CFI</p>
+        <div class="w-64 h-1 bg-gray-200 dark:bg-gray-800 rounded-full mt-8 overflow-hidden">
+            <div id="progressBar" class="h-full bg-gradient-to-r from-emerald-600 to-emerald-500 dark:from-emerald-500 dark:to-emerald-400 rounded-full" style="width: 0%"></div>
         </div>
     </div>
 
-    <main class="min-h-screen bg-gray-800 grid-pattern">
+    <main class="min-h-screen bg-gray-50 dark:bg-gray-900 grid-pattern transition-colors">
         <div class="relative max-w-6xl mx-auto px-4 py-10 w-full z-10">
             
             <div class="text-center mb-12 mt-20 animate-slide-up delay-1">
-                <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-                    Welcome to <span class="text-emerald-500">Class C</span>
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
+                    Welcome to <span class="text-emerald-600 dark:text-emerald-500">Class C</span>
                 </h1>
-                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
                     Platform manajemen tugas dan doksli untuk mahasiswa Informatika.
                 </p>
             </div>
@@ -360,7 +346,7 @@
                 </a>
                 
                 <a href="{{ route('galeri') }}" 
-                class="gradient-shift group flex items-center justify-center gap-2 px-6 py-3 bg-gray-700/60 hover:bg-gray-600 text-white font-medium rounded-xl transition-all duration-200 border border-gray-600 hover:border-gray-500 shadow-lg hover:-translate-y-0.5">
+                class="gradient-shift group flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-gray-700/60 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium rounded-xl transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 shadow-lg hover:-translate-y-0.5">
                     <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
@@ -370,26 +356,26 @@
 
             <div class="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 animate-slide-up delay-3">
                 <div onClick="window.location.href='{{ route('tasks.public') }}'" class="glass-card animated-border p-6 rounded-2xl shadow-sm hover:shadow-emerald-500/20 transition cursor-pointer group">
-                    <div class="icon-hover text-emerald-500 mb-2 inline-block">
+                    <div class="icon-hover text-emerald-600 dark:text-emerald-500 mb-2 inline-block">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                     </div>
-                    <h3 class="text-white font-semibold text-lg">Total Tugas Aktif</h3>
-                    <p class="text-3xl font-bold text-white mt-1">{{ $totalActiveTasks ?? 0 }}</p>
-                    <p class="text-xs text-gray-500 mt-1">Dari total {{ \App\Models\Task::count() ?? 0 }} tugas</p>
+                    <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Total Tugas Aktif</h3>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $totalActiveTasks ?? 0 }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Dari total {{ \App\Models\Task::count() ?? 0 }} tugas</p>
                 </div>
                 <div onClick="window.location.href='{{ route('galeri') }}'" class="glass-card animated-border p-6 rounded-2xl shadow-sm hover:shadow-blue-500/20 transition cursor-pointer group">
-                    <div class="icon-hover text-blue-500 mb-2 inline-block">
+                    <div class="icon-hover text-blue-600 dark:text-blue-500 mb-2 inline-block">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
-                    <h3 class="text-white font-semibold text-lg">Doksli Terkumpul</h3>
-                    <p class="text-3xl font-bold text-white mt-1">{{ $totalDoksli ?? 0 }}</p>
+                    <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Doksli Terkumpul</h3>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $totalDoksli ?? 0 }}</p>
                 </div>
                 <div class="glass-card animated-border p-6 rounded-2xl shadow-sm hover:shadow-purple-500/20 transition group">
-                    <div class="icon-hover text-purple-500 mb-2 inline-block">
+                    <div class="icon-hover text-purple-600 dark:text-purple-500 mb-2 inline-block">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </div>
-                    <h3 class="text-white font-semibold text-lg">Member</h3>
-                    <p class="text-3xl font-bold text-white mt-1">32</p>
+                    <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Member</h3>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">32</p>
                 </div>
             </div>
 
@@ -397,42 +383,42 @@
                 @if(isset($announcements) && $announcements->count() > 0)
                 <div class="mb-10 animate-slide-up delay-3">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                            <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-orange-500 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
                             </svg>
                             Pengumuman Terbaru
                         </h2>
-                        <span class="text-xs text-gray-500">{{ $announcements->count() }} pengumuman</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ $announcements->count() }} pengumuman</span>
                     </div>
                     
                     <div class="space-y-3">
                         @foreach($announcements as $announcement)
-                        <div onclick="openAnnouncementModal({{ $announcement->id }})" class="bg-gradient-to-r from-orange-900/30 to-gray-800/60 rounded-xl border border-orange-700/30 p-5 hover:border-orange-600/50 transition group cursor-pointer">
+                        <div onclick="openAnnouncementModal({{ $announcement->id }})" class="bg-gradient-to-r from-orange-50 to-white dark:from-orange-900/30 dark:to-gray-800/60 rounded-xl border border-orange-200 dark:border-orange-700/30 p-5 hover:border-orange-300 dark:hover:border-orange-600/50 transition group cursor-pointer">
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-lg bg-orange-600/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition">
-                                    <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-600/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition">
+                                    <svg class="w-5 h-5 text-orange-500 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
                                     </svg>
                                 </div>
                                 
                                 <div class="flex-1 min-w-0">
                                     <div class="flex flex-wrap items-center gap-2 mb-2">
-                                        <h3 class="text-white font-semibold text-lg">{{ $announcement->title }}</h3>
-                                        <span class="px-2 py-0.5 bg-orange-600/30 text-orange-300 text-xs font-medium rounded-full border border-orange-600/50">
+                                        <h3 class="text-gray-900 dark:text-white font-semibold text-lg">{{ $announcement->title }}</h3>
+                                        <span class="px-2 py-0.5 bg-orange-100 dark:bg-orange-600/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full border border-orange-200 dark:border-orange-600/50">
                                             Baru
                                         </span>
                                     </div>
                                     
-                                    <p class="text-gray-300 text-sm mb-3 whitespace-pre-wrap line-clamp-3">{{ $announcement->content }}</p>
+                                    <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 whitespace-pre-wrap line-clamp-3">{{ $announcement->content }}</p>
                                     
-                                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
+                                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
                                         <span class="flex items-center gap-1">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                             </svg>
                                             {{ $announcement->user->name }}
-                                            <span class="text-orange-400/80">• {{ config('roles.list.' . $announcement->user->role) ?? ucfirst($announcement->user->role) }}</span>
+                                            <span class="text-orange-600 dark:text-orange-400/80">• {{ config('roles.list.' . $announcement->user->role) ?? ucfirst($announcement->user->role) }}</span>
                                         </span>
                                         <span class="flex items-center gap-1">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -449,8 +435,8 @@
                 </div>
                 @endif
                 <div class="flex items-center justify-between mb-3">
-                    <h2 class="text-xl font-bold text-white">Aktivitas Terbaru</h2>
-                    <a href="{{ route('tasks.public') }}" class="text-sm text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white">Aktivitas Terbaru</h2>
+                    <a href="{{ route('tasks.public') }}" class="text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition flex items-center gap-1">
                         Lihat Semua
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </a>
@@ -460,16 +446,16 @@
                     <div class="space-y-4">
                         @foreach($latestTasks as $index => $task)
                         <div onclick="openTaskModal({{ $task->id }})" 
-                            class="task-slide glass-card rounded-xl border border-gray-600/50 p-5 hover:border-emerald-500/40 group cursor-pointer animate-slide-up"
+                            class="task-slide glass-card rounded-xl border border-gray-200 dark:border-gray-600/50 p-5 hover:border-emerald-300 dark:hover:border-emerald-500/40 group cursor-pointer animate-slide-up"
                             style="transition-delay: {{ 0.5 + ($index * 0.1) }}s">
                             
                             <div class="flex items-center gap-2 mb-3 flex-wrap">
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-900/30 text-emerald-400 text-xs font-medium rounded-full border border-emerald-800/30">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium rounded-full border border-emerald-200 dark:border-emerald-800/30">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                                     {{ $task->course_name }}
                                 </span>
 
-                                <span class="inline-flex items-center gap-1 px-2.5 py-1 {{ $task->category === 'kelompok' ? 'bg-blue-900/30 text-blue-400 border-blue-800/30' : 'bg-purple-900/30 text-purple-400 border-purple-800/30' }} text-xs font-medium rounded-full border">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 {{ $task->category === 'kelompok' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800/30' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800/30' }} text-xs font-medium rounded-full border">
                                     @if($task->category === 'kelompok')
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                     @else
@@ -479,29 +465,29 @@
                                 </span>
                             </div>
 
-                            <h4 class="text-white font-semibold text-lg mb-2 group-hover:text-emerald-400 transition-colors">
+                            <h4 class="text-gray-900 dark:text-white font-semibold text-lg mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                                 {{ $task->title }}
                             </h4>
 
-                            <p class="text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
                                     {!! Str::limit(strip_tags($task->description), 80) !!}
                             </p>
 
-                            <div class="flex items-center justify-between pt-4 border-t border-gray-700/50">
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700/50">
                                 
-                                <span class="flex items-center gap-2 text-xs text-gray-400">
+                                <span class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
                                     <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                                     
                                     <span>{{ $task->user->name ?? 'Unknown' }}</span>
                                     
-                                    <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                                    <span class="w-1 h-1 rounded-full bg-gray-400 dark:bg-gray-600"></span>
                                     
-                                    <span class="text-emerald-400/90 font-medium">
+                                    <span class="text-emerald-600 dark:text-emerald-400/90 font-medium">
                                         {{ config('roles.list.' . ($task->user->role ?? 'user')) ?? ucfirst($task->user->role ?? 'user') }}
                                     </span>
                                 </span>
 
-                                <span class="flex items-center gap-2 text-xs font-medium {{ $task->is_expired ? 'text-red-400' : 'text-emerald-400' }}">
+                                <span class="flex items-center gap-2 text-xs font-medium {{ $task->is_expired ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400' }}">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     {{ $task->deadline_at->format('l, d M H:i') }}
                                 </span>
@@ -512,168 +498,170 @@
                     </div>
                 @else
                     <div class="text-center py-10 animate-slide-up delay-5">
-                        <svg class="w-16 h-16 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                         </svg>
-                        <p class="text-gray-400 text-sm">Free gada tugas.</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">Free gada tugas.</p>
                     </div>
                 @endif
             </div>
 
         </div>
     </main>
-    <footer class="bg-gray-900 border-t border-gray-800 py-8 mt-auto">
+    <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 mt-auto transition-colors">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <div class="flex justify-center items-center gap-2 mb-4">
-                <span class="text-emerald-500 font-bold text-xl">❯</span>
-                <span class="text-white font-semibold">Informatika CFI</span>
+                <span class="text-emerald-600 dark:text-emerald-500 font-bold text-xl">❯</span>
+                <span class="text-gray-900 dark:text-white font-semibold">Informatika CFI</span>
             </div>
-            <p class="text-gray-400 text-sm mb-4">
+            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
                 Platform manajemen tugas & doksli untuk mahasiswa Informatika.
             </p>
-            <div class="flex justify-center item-center gap-2 mb-6">
-                <a class="text-gray-400 hover:text-emerald-400 text-sm transition">Dibuat dengan</a>
-                <a class="text-red-500 text-lg leading-none hover:scale-110 transition flex items-center">❤️</a>
-                <a class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                    oleh Engginer</a>
+            <div class="flex justify-center items-center gap-2 mb-6">
+                <span class="text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm transition">Dibuat dengan</span>
+                <span class="text-red-500 text-lg leading-none hover:scale-110 transition flex items-center">❤️</span>
+                <span class="text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm transition">oleh Engginer</span>
             </div>
-            <p class="text-gray-500 text-xs">
+            <p class="text-gray-500 dark:text-gray-500 text-xs">
                 &copy; {{ date('Y') }} Informatika CFI. All rights reserved.
             </p>
         </div>
     </footer>
+
     <div id="taskModal" class="fixed inset-0 z-[70] hidden flex items-end sm:items-center justify-center">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeTaskModal()"></div>
 
-        <div class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
+        <div class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-white dark:bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
             
-            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700 bg-gray-800 flex-shrink-0">
-                <h3 class="text-lg font-bold text-white">Detail Tugas</h3>
-                <button onclick="closeTaskModal()" class="text-gray-400 hover:text-white transition p-2 hover:bg-gray-700 rounded-lg -mr-2">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex-shrink-0">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Detail Tugas</h3>
+                <button onclick="closeTaskModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg -mr-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-white dark:bg-gray-900">
 
                 <div class="flex flex-wrap items-center gap-2">
                     <span id="modalStatus" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
-                    <span id="modalCourse" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-900/30 text-emerald-400 text-sm font-medium rounded-full border border-emerald-800/30"></span>
+                    <span id="modalCourse" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-sm font-medium rounded-full border border-emerald-200 dark:border-emerald-800/30"></span>
                     <span id="modalCategory" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
                 </div>
 
                 <div>
-                    <h2 id="modalTitle" class="text-xl font-bold text-white leading-tight mb-3"></h2>
-                    <h4 class="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                    <h2 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white leading-tight mb-3"></h2>
+                    <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
                         Deskripsi Tugas
                     </h4>
-                    <div id="modalDescription" class="bg-gray-700/50 rounded-lg p-4 text-gray-300 text-sm leading-relaxed border border-gray-600 max-h-48 overflow-y-auto"></div>
+                    <div id="modalDescription" class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 text-gray-700 dark:text-gray-300 text-sm leading-relaxed border border-gray-200 dark:border-gray-600 max-h-48 overflow-y-auto"></div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
-                        <div class="flex items-center gap-2 text-gray-400 text-xs mb-1">
+                    <div class="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
+                        <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs mb-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Mulai
                         </div>
-                        <p id="modalStarts" class="text-white text-sm font-medium"></p>
+                        <p id="modalStarts" class="text-gray-900 dark:text-white text-sm font-medium"></p>
                     </div>
-                    <div class="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
-                        <div class="flex items-center gap-2 text-orange-300 text-xs mb-1">
+                    <div class="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
+                        <div class="flex items-center gap-2 text-orange-500 dark:text-orange-300 text-xs mb-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Deadline
                         </div>
-                        <p id="modalDeadline" class="text-white text-sm font-medium"></p>
+                        <p id="modalDeadline" class="text-gray-900 dark:text-white text-sm font-medium"></p>
                     </div>
                 </div>
 
                 <div id="modalLinks" class="space-y-2">
-                    <h4 class="text-sm font-semibold text-gray-300 mb-2">Link Terkait</h4>
+                    <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Link Terkait</h4>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
+            <div class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
                 <div class="px-4 py-2.5 flex items-center justify-between gap-3 flex-shrink-0">
-                    <span id="modalCreator" class="text-gray-400 text-xs font-medium truncate"></span>
-                    <span class="text-gray-400 text-xs font-medium truncate"> · </span>
-                    <span id="modalRole" class="text-gray-500 text-xs truncate text-right"></span>
+                    <span id="modalCreator" class="text-gray-600 dark:text-gray-400 text-xs font-medium truncate"></span>
+                    <span class="text-gray-600 dark:text-gray-400 text-xs font-medium truncate"> · </span>
+                    <span id="modalRole" class="text-gray-500 dark:text-gray-500 text-xs truncate text-right"></span>
                 </div>
-                <button onclick="closeTaskModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded-lg transition flex-shrink-0">
+                <button onclick="closeTaskModal()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white text-xs font-medium rounded-lg transition flex-shrink-0">
                     Tutup
                 </button>
             </div>
         </div>
     </div>
+
     <div id="announcementModal" class="fixed inset-0 z-[75] hidden flex items-end sm:items-center justify-center">
         <div id="annModalBackdrop" class="absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeAnnouncementModal()"></div>
 
-        <div id="annModalPanel" class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
+        <div id="annModalPanel" class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-white dark:bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
             
-            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700 bg-gray-800 flex-shrink-0">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex-shrink-0">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <svg class="w-5 h-5 text-orange-500 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
                     </svg>
                     Detail Pengumuman
                 </h3>
-                <button onclick="closeAnnouncementModal()" class="text-gray-400 hover:text-white transition p-2 hover:bg-gray-700 rounded-lg -mr-2">
+                <button onclick="closeAnnouncementModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg -mr-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-white dark:bg-gray-900">
 
                 <div class="flex flex-wrap items-center gap-2">
                     <span id="annModalStatus" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-700/50 text-gray-300 text-xs font-medium rounded-full border border-gray-600">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-600">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         <span id="annModalDate"></span>
                     </span>
                 </div>
 
-                <h2 id="annModalTitle" class="text-xl font-bold text-white leading-tight"></h2>
+                <h2 id="annModalTitle" class="text-xl font-bold text-gray-900 dark:text-white leading-tight"></h2>
 
                 <div id="annModalImageWrap" class="hidden">
-                    <img id="annModalImage" src="" alt="" class="w-full max-h-72 object-cover rounded-xl border border-gray-600">
+                    <img id="annModalImage" src="" alt="" class="w-full max-h-72 object-cover rounded-xl border border-gray-200 dark:border-gray-600">
                 </div>
 
                 <div>
-                    <h4 class="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                    <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
                         Isi Pengumuman
                     </h4>
-                    <div id="annModalContent" class="bg-gray-700/50 rounded-lg p-4 text-gray-300 text-sm leading-relaxed border border-gray-600 whitespace-pre-wrap max-h-64 overflow-y-auto"></div>
+                    <div id="annModalContent" class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 text-gray-700 dark:text-gray-300 text-sm leading-relaxed border border-gray-200 dark:border-gray-600 whitespace-pre-wrap max-h-64 overflow-y-auto"></div>
                 </div>
 
                 <div id="annModalLinkWrap" class="hidden">
                     <a id="annModalLink" href="#" target="_blank" rel="noopener"
-                    class="flex items-center gap-2 p-3 bg-emerald-900/30 border border-emerald-700/40 rounded-lg text-emerald-400 text-sm font-medium hover:bg-emerald-900/50 transition">
+                    class="flex items-center gap-2 p-3 bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-700/40 rounded-lg text-emerald-700 dark:text-emerald-400 text-sm font-medium hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                         Buka Link Terkait
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
                 </div>
 
-                <div class="flex items-center gap-2 p-3 bg-gray-700/30 rounded-lg border border-gray-600">
-                    <svg class="w-4 h-4 text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span class="text-gray-400 text-xs">Berlaku hingga:</span>
-                    <span id="annModalExpires" class="text-white text-xs font-medium"></span>
+                <div class="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <svg class="w-4 h-4 text-orange-500 dark:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-gray-500 dark:text-gray-400 text-xs">Berlaku hingga:</span>
+                    <span id="annModalExpires" class="text-gray-900 dark:text-white text-xs font-medium"></span>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
+            <div class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
                 <div class="px-4 py-2.5 flex items-center justify-between gap-3 flex-shrink-0">
-                    <span id="annModalCreator" class="text-gray-400 text-xs font-medium truncate"></span>
-                    <span class="text-gray-400 text-xs font-medium truncate"> · </span>
-                    <span id="annModalRole" class="text-gray-500 text-xs truncate text-right"></span>
+                    <span id="annModalCreator" class="text-gray-600 dark:text-gray-400 text-xs font-medium truncate"></span>
+                    <span class="text-gray-600 dark:text-gray-400 text-xs font-medium truncate"> · </span>
+                    <span id="annModalRole" class="text-gray-500 dark:text-gray-500 text-xs truncate text-right"></span>
                 </div>
-                <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded-lg transition flex-shrink-0">
+                <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white text-xs font-medium rounded-lg transition flex-shrink-0">
                     Tutup
                 </button>
             </div>
         </div>
     </div>
+
     <script>
         const mobileMenu = document.getElementById('mobileMenu');
         const sidebarToggle = document.getElementById('sidebarToggle');
@@ -699,6 +687,7 @@
         });
 
         @if (session('success'))
+            const isDark = document.documentElement.classList.contains('dark');
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil',
@@ -707,13 +696,13 @@
                 showConfirmButton: false,
                 position: 'top-end',
                 toast: true,
-                background: '#1f2937',
-                color: '#fff'
+                background: isDark ? '#1f2937' : '#ffffff',
+                color: isDark ? '#fff' : '#111827'
             });
         @endif
 
         document.addEventListener('DOMContentLoaded', function() {
-            const targetEl = document.querySelector('.bg-gray-800 .text-3xl');
+            const targetEl = document.querySelector('.bg-gray-50 .text-3xl, .dark\\:bg-gray-900 .text-3xl');
             if (targetEl) {
                 const finalValue = {{ $totalActiveTasks ?? 0 }};
                 let current = 0;
@@ -738,6 +727,8 @@
             const task = tasksData.find(t => t.id === taskId);
             if (!task) return;
 
+            const isDark = document.documentElement.classList.contains('dark');
+
             document.getElementById('modalTitle').textContent = task.title;
             document.getElementById('modalDescription').innerHTML = task.description.replace(/\n/g, '<br>');
             document.getElementById('modalCourse').innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>${task.course_name}`;
@@ -748,18 +739,18 @@
 
             const isExpired = new Date(task.deadline_at) < new Date();
             const statusEl = document.getElementById('modalStatus');
-            statusEl.className = `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${isExpired ? 'bg-red-900/30 text-red-400 border-red-800/30' : 'bg-emerald-900/30 text-emerald-400 border-emerald-800/30'}`;
+            statusEl.className = `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${isExpired ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800/30' : 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/30'}`;
             statusEl.innerHTML = isExpired ? '⏳ Deadline Lewat' : 'Aktif';
 
             const categoryEl = document.getElementById('modalCategory');
-            categoryEl.className = `px-2.5 py-1 rounded-full text-xs font-medium border ${task.category === 'kelompok' ? 'bg-blue-900/30 text-blue-400 border-blue-800/30' : 'bg-purple-900/30 text-purple-400 border-purple-800/30'}`;
+            categoryEl.className = `px-2.5 py-1 rounded-full text-xs font-medium border ${task.category === 'kelompok' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800/30' : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800/30'}`;
             categoryEl.innerHTML = task.category === 'kelompok' ? '<span class="inline-flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg><span>Kelompok</span></span>' : '<span class="inline-flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><span>Individu</span></span>';
 
             const linksContainer = document.getElementById('modalLinks');
-            linksContainer.innerHTML = '<h4 class="text-sm font-semibold text-gray-300 mb-2">Link Terkait</h4>';
-            if (task.material_link) linksContainer.innerHTML += `<a href="${task.material_link}" target="_blank" class="flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition p-2 rounded-lg hover:bg-blue-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>Materi Pembelajaran</a>`;
-            if (task.submission_link) linksContainer.innerHTML += `<a href="${task.submission_link}" target="_blank" class="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 text-sm transition p-2 rounded-lg hover:bg-emerald-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>Link Pengumpulan</a>`;
-            if (!task.material_link && !task.submission_link) linksContainer.innerHTML += '<p class="text-gray-500 text-sm">Tidak ada link tersedia</p>';
+            linksContainer.innerHTML = '<h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Link Terkait</h4>';
+            if (task.material_link) linksContainer.innerHTML += `<a href="${task.material_link}" target="_blank" class="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm transition p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>Materi Pembelajaran</a>`;
+            if (task.submission_link) linksContainer.innerHTML += `<a href="${task.submission_link}" target="_blank" class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm transition p-2 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>Link Pengumpulan</a>`;
+            if (!task.material_link && !task.submission_link) linksContainer.innerHTML += '<p class="text-gray-500 dark:text-gray-400 text-sm">Tidak ada link tersedia</p>';
 
             const modal = document.getElementById('taskModal');
             const backdrop = modal.querySelector('.absolute.inset-0');
@@ -852,10 +843,10 @@
 
             const statusEl = document.getElementById('annModalStatus');
             if (data.status === 'baru') {
-                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border bg-orange-900/30 text-orange-300 border-orange-600/50';
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-600/50';
                 statusEl.textContent = 'Baru';
             } else {
-                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border bg-gray-700/50 text-gray-300 border-gray-600';
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600';
                 statusEl.textContent = 'Arsip';
             }
 
