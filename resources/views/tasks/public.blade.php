@@ -90,7 +90,6 @@
 </head>
 <body class="bg-gray-800 min-h-screen flex flex-col">
 
-    <!-- TOP NAVBAR -->
     <nav class="fixed top-0 left-0 right-0 h-16 bg-gray-800/80 backdrop-blur-md text-white shadow-lg z-50 flex items-center justify-between px-4 md:px-20 transition-all duration-300 border-b border-gray-700/50">
         <div class="flex items-center gap-4">
             <button id="sidebarToggle" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-1">
@@ -108,7 +107,6 @@
         </div>
     </nav>
 
-    <!-- MOBILE MENU -->
     <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
     <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
         <div class="p-6 border-b border-gray-700 flex items-center justify-between">
@@ -125,18 +123,15 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <main class="flex-1 p-4 md:p-6">
         <div class="max-w-7xl mx-auto">
             
-            <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-white">Kalender Tugas</h1>
                     <p class="text-gray-400 text-sm mt-1">Kelola dan lihat jadwal tugas</p>
                 </div>
                 
-                <!-- Filter Toggle -->
                 <div class="flex bg-gray-700/60 p-1 rounded-full border border-gray-600">
                     <a href="{{ route('tasks.public', ['status' => 'active']) }}" 
                        class="px-4 py-2 rounded-full text-sm font-medium transition {{ $status === 'active' ? 'bg-emerald-600 text-white' : 'text-gray-400 hover:text-white' }}">
@@ -151,9 +146,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
                 
-                <!-- SIDEBAR -->
                 <div class="lg:col-span-1 space-y-4">
-                    <!-- TUGAS LIST -->
                     <div class="bg-gray-700/60 rounded-xl border border-gray-600 p-3">
                         <h3 class="font-semibold text-white mb-3 flex items-center gap-2">
                             @if($status === 'active')
@@ -192,10 +185,8 @@
                     </div>
                 </div>
 
-                <!-- MAIN CALENDAR -->
                 <div class="lg:col-span-3">
                     <div class="bg-gray-700/60 rounded-xl border border-gray-600 p-4 md:p-6">
-                        <!-- Calendar Header -->
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl font-bold text-white" id="calendarTitle">April 2026</h2>
                             <div class="flex gap-2">
@@ -211,9 +202,7 @@
                             </div>
                         </div>
 
-                        <!-- Calendar Grid Container -->
                         <div id="calendarGrid" class="calendar-fade-in">
-                            <!-- Rendered by JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -221,8 +210,7 @@
         </div>
     </main>
 
-    <!-- TASK DETAIL MODAL -->
-    <div id="taskModal" class="fixed inset-0 z-[80] hidden flex items-end sm:items-center justify-center">
+    <div id="taskModal" class="fixed inset-0 z-[70] hidden flex items-end sm:items-center justify-center">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeTaskModal()"></div>
 
         <div class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
@@ -235,19 +223,15 @@
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
-                <div class="flex flex-wrap gap-2">
+
+                <div class="flex flex-wrap items-center gap-2">
                     <span id="modalStatus" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
                     <span id="modalCourse" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-900/30 text-emerald-400 text-sm font-medium rounded-full border border-emerald-800/30"></span>
-                </div>
-
-                <h2 id="modalTitle" class="text-xl font-bold text-white leading-tight"></h2>
-
-                <div class="flex items-center gap-2">
-                    <span class="text-gray-400 text-sm">Kategori:</span>
-                    <span id="modalCategory" class="px-2.5 py-1 rounded-md text-xs font-medium border"></span>
+                    <span id="modalCategory" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
                 </div>
 
                 <div>
+                    <h2 id="modalTitle" class="text-xl font-bold text-white leading-tight mb-3"></h2>
                     <h4 class="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
                         Deskripsi Tugas
@@ -255,7 +239,7 @@
                     <div id="modalDescription" class="bg-gray-700/50 rounded-lg p-4 text-gray-300 text-sm leading-relaxed border border-gray-600 max-h-48 overflow-y-auto"></div>
                 </div>
 
-                <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div class="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
                         <div class="flex items-center gap-2 text-gray-400 text-xs mb-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -265,20 +249,10 @@
                     </div>
                     <div class="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
                         <div class="flex items-center gap-2 text-orange-300 text-xs mb-1">
-                            <svg class="w-4 h-4" fill="none" stroke="orange" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Deadline
                         </div>
                         <p id="modalDeadline" class="text-white text-sm font-medium"></p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3 p-3 bg-gray-700/30 rounded-full border border-gray-600">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                        <span id="modalCreatorInitial"></span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-white text-sm font-medium truncate" id="modalCreator"></p>
-                        <p class="text-gray-400 text-xs truncate" id="modalRole"></p>
                     </div>
                 </div>
 
@@ -287,15 +261,19 @@
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 bg-gray-800 p-4 flex-shrink-0">
-                <button onclick="closeTaskModal()" class="w-full px-5 py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium rounded-lg transition">
+            <div class="border-t border-gray-700 bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
+                <div class="px-4 py-2.5 flex items-center justify-between gap-3 flex-shrink-0">
+                    <span id="modalCreator" class="text-gray-400 text-xs font-medium truncate"></span>
+                    <span class="text-gray-400 text-xs font-medium truncate"> · </span>
+                    <span id="modalRole" class="text-gray-500 text-xs truncate text-right"></span>
+                </div>
+                <button onclick="closeTaskModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded-lg transition flex-shrink-0">
                     Tutup
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer class="bg-gray-900 border-t border-gray-800 py-8 mt-auto">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <div class="flex justify-center items-center gap-2 mb-4">
@@ -432,7 +410,6 @@
             document.getElementById('modalStarts').textContent = new Date(task.starts_at).toLocaleString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
             document.getElementById('modalDeadline').textContent = new Date(task.deadline_at).toLocaleString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
             document.getElementById('modalCreator').textContent = task.user.name || 'Unknown';
-            document.getElementById('modalCreatorInitial').textContent = (task.user.name || 'U').charAt(0).toUpperCase();
             document.getElementById('modalRole').textContent = window.configRoles?.[task.user.role] || task.user.role.charAt(0).toUpperCase() + task.user.role.slice(1);
 
             const isExpired = new Date(task.deadline_at) < new Date();

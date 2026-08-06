@@ -252,27 +252,23 @@
             transform: scale(1.15) rotate(5deg);
         }
     </style>
-    <!-- SEO Meta Tags -->
     <meta name="description" content="Platform manajemen tugas dan dokumentasi untuk mahasiswa Informatika CFI">
     <meta name="keywords" content="informatika, tugas, kuliah, dokumentasi, cfi">
     <meta name="author" content="Informatika CFI">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://informatikacfi.my.id/">
     <meta property="og:title" content="Informatika CFI - Platform Manajemen Tugas">
     <meta property="og:description" content="Platform manajemen tugas dan dokumentasi untuk mahasiswa Informatika CFI">
     <meta property="og:image" content="https://informatikacfi.my.id/images/og-image.jpg">
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://informatikacfi.my.id/">
     <meta property="twitter:title" content="Informatika CFI - Platform Manajemen Tugas">
     <meta property="twitter:description" content="Platform manajemen tugas dan dokumentasi untuk mahasiswa Informatika CFI">
     <meta property="twitter:image" content="https://informatikacfi.my.id/images/og-image.jpg">
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 <body class="bg-gray-800">
@@ -559,19 +555,15 @@
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
-                <div class="flex flex-wrap gap-2">
+
+                <div class="flex flex-wrap items-center gap-2">
                     <span id="modalStatus" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
                     <span id="modalCourse" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-900/30 text-emerald-400 text-sm font-medium rounded-full border border-emerald-800/30"></span>
-                </div>
-
-                <h2 id="modalTitle" class="text-xl font-bold text-white leading-tight"></h2>
-
-                <div class="flex items-center gap-2">
-                    <span class="text-gray-400 text-sm">Kategori:</span>
-                    <span id="modalCategory" class="px-2.5 py-1 rounded-full text-xs font-medium border"></span>
+                    <span id="modalCategory" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
                 </div>
 
                 <div>
+                    <h2 id="modalTitle" class="text-xl font-bold text-white leading-tight mb-3"></h2>
                     <h4 class="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
                         Deskripsi Tugas
@@ -579,7 +571,7 @@
                     <div id="modalDescription" class="bg-gray-700/50 rounded-lg p-4 text-gray-300 text-sm leading-relaxed border border-gray-600 max-h-48 overflow-y-auto"></div>
                 </div>
 
-                <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div class="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
                         <div class="flex items-center gap-2 text-gray-400 text-xs mb-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -589,20 +581,10 @@
                     </div>
                     <div class="bg-gray-700/30 rounded-lg p-3 border border-gray-600">
                         <div class="flex items-center gap-2 text-orange-300 text-xs mb-1">
-                            <svg class="w-4 h-4" fill="none" stroke="orange" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Deadline
                         </div>
                         <p id="modalDeadline" class="text-white text-sm font-medium"></p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3 p-3 bg-gray-700/30 rounded-full border border-gray-600">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                        <span id="modalCreatorInitial"></span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-white text-sm font-medium truncate" id="modalCreator"></p>
-                        <p class="text-gray-400 text-xs truncate" id="modalRole"></p>
                     </div>
                 </div>
 
@@ -611,8 +593,13 @@
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 bg-gray-800 p-4 flex-shrink-0">
-                <button onclick="closeTaskModal()" class="w-full px-5 py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium rounded-lg transition">
+            <div class="border-t border-gray-700 bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
+                <div class="px-4 py-2.5 flex items-center justify-between gap-3 flex-shrink-0">
+                    <span id="modalCreator" class="text-gray-400 text-xs font-medium truncate"></span>
+                    <span class="text-gray-400 text-xs font-medium truncate"> · </span>
+                    <span id="modalRole" class="text-gray-500 text-xs truncate text-right"></span>
+                </div>
+                <button onclick="closeTaskModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded-lg transition flex-shrink-0">
                     Tutup
                 </button>
             </div>
@@ -688,7 +675,6 @@
             document.getElementById('modalStarts').textContent = new Date(task.starts_at).toLocaleString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
             document.getElementById('modalDeadline').textContent = new Date(task.deadline_at).toLocaleString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
             document.getElementById('modalCreator').textContent = task.user.name || 'Unknown';
-            document.getElementById('modalCreatorInitial').textContent = (task.user.name || 'U').charAt(0).toUpperCase();
             document.getElementById('modalRole').textContent = window.configRoles?.[task.user.role] || task.user.role.charAt(0).toUpperCase() + task.user.role.slice(1);
 
             const isExpired = new Date(task.deadline_at) < new Date();
