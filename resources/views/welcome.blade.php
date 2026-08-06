@@ -408,7 +408,7 @@
                     
                     <div class="space-y-3">
                         @foreach($announcements as $announcement)
-                        <div class="bg-gradient-to-r from-orange-900/30 to-gray-800/60 rounded-xl border border-orange-700/30 p-5 hover:border-orange-600/50 transition group">
+                        <div onclick="openAnnouncementModal({{ $announcement->id }})" class="bg-gradient-to-r from-orange-900/30 to-gray-800/60 rounded-xl border border-orange-700/30 p-5 hover:border-orange-600/50 transition group cursor-pointer">
                             <div class="flex items-start gap-4">
                                 <div class="w-10 h-10 rounded-lg bg-orange-600/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition">
                                     <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -605,6 +605,75 @@
             </div>
         </div>
     </div>
+    <div id="announcementModal" class="fixed inset-0 z-[75] hidden flex items-end sm:items-center justify-center">
+        <div id="annModalBackdrop" class="absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeAnnouncementModal()"></div>
+
+        <div id="annModalPanel" class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
+            
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700 bg-gray-800 flex-shrink-0">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+                    </svg>
+                    Detail Pengumuman
+                </h3>
+                <button onclick="closeAnnouncementModal()" class="text-gray-400 hover:text-white transition p-2 hover:bg-gray-700 rounded-lg -mr-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <span id="annModalStatus" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border"></span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-700/50 text-gray-300 text-xs font-medium rounded-full border border-gray-600">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span id="annModalDate"></span>
+                    </span>
+                </div>
+
+                <h2 id="annModalTitle" class="text-xl font-bold text-white leading-tight"></h2>
+
+                <div id="annModalImageWrap" class="hidden">
+                    <img id="annModalImage" src="" alt="" class="w-full max-h-72 object-cover rounded-xl border border-gray-600">
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                        Isi Pengumuman
+                    </h4>
+                    <div id="annModalContent" class="bg-gray-700/50 rounded-lg p-4 text-gray-300 text-sm leading-relaxed border border-gray-600 whitespace-pre-wrap max-h-64 overflow-y-auto"></div>
+                </div>
+
+                <div id="annModalLinkWrap" class="hidden">
+                    <a id="annModalLink" href="#" target="_blank" rel="noopener"
+                    class="flex items-center gap-2 p-3 bg-emerald-900/30 border border-emerald-700/40 rounded-lg text-emerald-400 text-sm font-medium hover:bg-emerald-900/50 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                        Buka Link Terkait
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-2 p-3 bg-gray-700/30 rounded-lg border border-gray-600">
+                    <svg class="w-4 h-4 text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-gray-400 text-xs">Berlaku hingga:</span>
+                    <span id="annModalExpires" class="text-white text-xs font-medium"></span>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 bg-gray-800 px-4 py-3 flex items-center justify-between gap-3 flex-shrink-0">
+                <div class="px-4 py-2.5 flex items-center justify-between gap-3 flex-shrink-0">
+                    <span id="annModalCreator" class="text-gray-400 text-xs font-medium truncate"></span>
+                    <span class="text-gray-400 text-xs font-medium truncate"> · </span>
+                    <span id="annModalRole" class="text-gray-500 text-xs truncate text-right"></span>
+                </div>
+                <button onclick="closeTaskModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium rounded-lg transition flex-shrink-0">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
     <script>
         const mobileMenu = document.getElementById('mobileMenu');
         const sidebarToggle = document.getElementById('sidebarToggle');
@@ -753,6 +822,90 @@
         });
 
         document.body.style.overflow = 'hidden';
+
+        @php
+            $announcementJson = (isset($announcements) ? $announcements : collect())->map(fn($a) => [
+                'id'      => $a->id,
+                'title'   => $a->title,
+                'content' => $a->content,
+                'image'   => $a->image ? asset($a->image) : null,
+                'link'    => $a->link,
+                'status'  => $a->status,
+                'creator' => $a->user?->name ?? 'Unknown',
+                'role'    => config('roles.list.' . ($a->user?->role ?? 'user')) ?? ucfirst($a->user?->role ?? 'user'),
+                'created' => $a->created_at?->format('d M Y, H:i'),
+                'expires' => $a->expires_at?->format('d M Y, H:i'),
+            ])->values();
+        @endphp
+        const announcementData = @json($announcementJson);
+
+        function openAnnouncementModal(id) {
+            const data = announcementData.find(a => a.id === id);
+            if (!data) return;
+
+            document.getElementById('annModalTitle').textContent   = data.title;
+            document.getElementById('annModalContent').textContent = data.content;
+            document.getElementById('annModalCreator').textContent = data.creator;
+            document.getElementById('annModalRole').textContent    = data.role;
+            document.getElementById('annModalDate').textContent    = data.created;
+            document.getElementById('annModalExpires').textContent = data.expires;
+
+            const statusEl = document.getElementById('annModalStatus');
+            if (data.status === 'baru') {
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border bg-orange-900/30 text-orange-300 border-orange-600/50';
+                statusEl.textContent = 'Baru';
+            } else {
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border bg-gray-700/50 text-gray-300 border-gray-600';
+                statusEl.textContent = 'Arsip';
+            }
+
+            const imgWrap = document.getElementById('annModalImageWrap');
+            if (data.image) {
+                document.getElementById('annModalImage').src = data.image;
+                imgWrap.classList.remove('hidden');
+            } else {
+                imgWrap.classList.add('hidden');
+            }
+
+            const linkWrap = document.getElementById('annModalLinkWrap');
+            if (data.link) {
+                document.getElementById('annModalLink').href =
+                    data.link.startsWith('http') ? data.link : 'https://' + data.link;
+                linkWrap.classList.remove('hidden');
+            } else {
+                linkWrap.classList.add('hidden');
+            }
+
+            const modal    = document.getElementById('announcementModal');
+            const backdrop = document.getElementById('annModalBackdrop');
+            const panel    = document.getElementById('annModalPanel');
+
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            requestAnimationFrame(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('opacity-0', 'translate-y-full', 'sm:translate-y-4', 'sm:scale-95');
+            });
+        }
+
+        function closeAnnouncementModal() {
+            const modal    = document.getElementById('announcementModal');
+            const backdrop = document.getElementById('annModalBackdrop');
+            const panel    = document.getElementById('annModalPanel');
+
+            backdrop.classList.add('opacity-0');
+            panel.classList.add('opacity-0', 'translate-y-full', 'sm:translate-y-4', 'sm:scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }, 300);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !document.getElementById('announcementModal').classList.contains('hidden')) {
+                closeAnnouncementModal();
+            }
+        });
     </script>
 </body>
 </html>
