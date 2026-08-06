@@ -112,8 +112,12 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 
                 <div class="team-card bg-white dark:bg-gray-800/60 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500/50 transition group text-center">
-                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-2xl font-bold text-white shadow-lg">
-                        NA
+                    <div class="relative w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-black-500 to-black-700 shadow-lg overflow-hidden ring-2 ring-transparent hover:ring-emerald-500/60 transition">
+                        <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">NA</span>
+                        <img src="https://github.com/azhimmuntazhar.png?size=256" alt="Foto Najwan" loading="lazy"
+                            class="absolute inset-0 w-full h-full object-cover"
+                            onload="this.parentElement.querySelector('span').style.display='none'"
+                            onerror="this.remove()">
                     </div>
                     <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Najwan Azhim M. A</h3>
                     <p class="text-emerald-600 dark:text-emerald-400 text-sm font-medium mb-3">Project Leader</p>
@@ -129,8 +133,12 @@
                 </div>
 
                 <div class="team-card bg-white dark:bg-gray-800/60 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500/50 transition group text-center">
-                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-2xl font-bold text-white shadow-lg">
-                        DJ
+                    <div class="relative w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg overflow-hidden ring-2 ring-transparent hover:ring-blue-500/60 transition">
+                        <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">DJ</span>
+                        <img src="https://github.com/Moonligh-arch.png?size=256" alt="Foto Dava" loading="lazy"
+                            class="absolute inset-0 w-full h-full object-cover"
+                            onload="this.parentElement.querySelector('span').style.display='none'"
+                            onerror="this.remove()">
                     </div>
                     <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Dava Julian E. K</h3>
                     <p class="text-emerald-600 dark:text-emerald-400 text-sm font-medium mb-3">Deputy Leader</p>
@@ -146,8 +154,12 @@
                 </div>
 
                 <div class="team-card bg-white dark:bg-gray-800/60 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500/50 transition group text-center">
-                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-2xl font-bold text-white shadow-lg">
-                        HP
+                    <div class="relative w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 shadow-lg overflow-hidden ring-2 ring-transparent hover:ring-purple-500/60 transition">
+                        <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">HP</span>
+                        <img src="https://github.com/ushanka73.png?size=256" alt="Foto Hayden" loading="lazy"
+                            class="absolute inset-0 w-full h-full object-cover"
+                            onload="this.parentElement.querySelector('span').style.display='none'"
+                            onerror="this.remove()">
                     </div>
                     <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Hayden Putra P</h3>
                     <p class="text-emerald-600 dark:text-emerald-400 text-sm font-medium mb-3">Advisor</p>
@@ -163,8 +175,12 @@
                 </div>
 
                 <div class="team-card bg-white dark:bg-gray-800/60 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500/50 transition group text-center">
-                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center text-2xl font-bold text-white shadow-lg">
-                        RI
+                    <div class="relative w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-lg overflow-hidden ring-2 ring-transparent hover:ring-orange-500/60 transition">
+                        <span class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">RI</span>
+                        <img src="https://github.com/Zydruss.png?size=256" alt="Foto Robby" loading="lazy"
+                            class="absolute inset-0 w-full h-full object-cover"
+                            onload="this.parentElement.querySelector('span').style.display='none'"
+                            onerror="this.remove()">
                     </div>
                     <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Robby Ibrahimovic</h3>
                     <p class="text-emerald-600 dark:text-emerald-400 text-sm font-medium mb-3">Secretary</p>
