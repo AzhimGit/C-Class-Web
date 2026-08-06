@@ -346,7 +346,7 @@
                 </a>
                 
                 <a href="{{ route('galeri') }}" 
-                class="gradient-shift group flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-gray-700/60 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium rounded-xl transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 shadow-lg hover:-translate-y-0.5">
+                class="gradient-shift group flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-gray-700/60 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-900 dark:text-white hover:text-white font-medium rounded-xl transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 shadow-lg hover:-translate-y-0.5">
                     <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
