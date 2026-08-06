@@ -110,6 +110,7 @@
                 <div>
                     <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Gallery Doksli</h1>
                     <p class="text-gray-400 mt-1">Koleksi Doksli Asli Informatika CFI</p>
+                    <p class="text-red-400">*dibuat untuk warga yang mulai menyerah mencari doksli</p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3">
