@@ -1,5 +1,5 @@
 <button onclick="toggleTheme()" title="Ganti mode terang/gelap"
-        class="p-2 rounded-lg text-gray-500 hover:bg-gray-200/70 transition
+        class="p-2 rounded-full text-gray-500 hover:bg-gray-200/70 transition
                dark:text-gray-300 dark:hover:bg-gray-700">
     {{-- Ikon bulan (tampil saat light) --}}
     <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
