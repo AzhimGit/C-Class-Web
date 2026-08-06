@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery - Informatika CFI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    @include('partials.theme')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
+        /* Scrollbar global - Light */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(31,41,55,0.4); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb { background: rgba(75,85,99,0.8); border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: rgba(229,231,235,0.4); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(156,163,175,0.8); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(107,114,128,1); }
-        html { scrollbar-width: thin; scrollbar-color: rgba(75,85,99,0.8) rgba(31,41,55,0.4); }
+        html { scrollbar-width: thin; scrollbar-color: rgba(156,163,175,0.8) rgba(229,231,235,0.4); }
+
+        /* Scrollbar - Dark */
+        html.dark ::-webkit-scrollbar-track { background: rgba(31,41,55,0.4); }
+        html.dark ::-webkit-scrollbar-thumb { background: rgba(75,85,99,0.8); }
+        html.dark ::-webkit-scrollbar-thumb:hover { background: rgba(107,114,128,1); }
+        html.dark { scrollbar-color: rgba(75,85,99,0.8) rgba(31,41,55,0.4); }
 
         html { scroll-behavior: smooth; }
         body { padding-top: 72px; }
@@ -44,62 +52,60 @@
 
         .gallery-card:hover .gallery-img { transform: scale(1.06); }
         .gallery-img { transition: transform 0.5s ease; will-change: transform; }
+
+        /* Skeleton loader - Light & Dark */
+        .skeleton {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        html.dark .skeleton {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+            background-size: 200% 100%;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
-<body class="bg-gray-800">
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors">
 
-    <nav class="fixed top-0 left-0 right-0 h-16 bg-gray-800/80 backdrop-blur-md text-white shadow-lg z-50 flex items-center justify-between px-4 md:px-20 transition-all duration-300 border-b border-gray-700/50">
+    <nav class="fixed top-0 left-0 right-0 h-16 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-900 dark:text-white shadow-lg z-50 flex items-center justify-between px-4 md:px-20 transition-all duration-300 border-b border-gray-200 dark:border-gray-700/50">
         <div class="flex items-center gap-4">
-            <button id="sidebarToggle" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-1">
+            <button id="sidebarToggle" class="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none p-1">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
             <a href="{{ route('home') }}" class="text-xl font-bold tracking-wide flex items-center gap-2">
-                <span class="text-emerald-500">❯</span> Informatika CFI
+                <span class="text-emerald-600 dark:text-emerald-500">❯</span> Informatika CFI
             </a>
         </div>
-        <div class="hidden md:flex items-center gap-2">
-            <a href="{{ route('home') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Home</a>
-            <a href="{{ route('tasks.public') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('tasks.public') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Task</a>
-            <a href="{{ route('galeri') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('galeri') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">Gallery</a>
-            <a href="{{ route('about') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-white active' : 'text-gray-300 hover:text-white' }}">About</a>
+        <div class="flex items-center gap-1 md:gap-2">
+            <div class="hidden md:flex items-center gap-2">
+                <a href="{{ route('home') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Home</a>
+                <a href="{{ route('tasks.public') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('tasks.public') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Task</a>
+                <a href="{{ route('galeri') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('galeri') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Gallery</a>
+                <a href="{{ route('about') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">About</a>
+            </div>
+            @include('partials.theme-toggle')
         </div>
     </nav>
 
+    {{-- Mobile Menu (sudah dirapikan dari duplikat) --}}
     <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
-        <div class="p-6 border-b border-gray-700 flex items-center justify-between">
+    <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 text-gray-900 dark:text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
             <span class="text-lg font-bold">Menu</span>
-            <button id="sidebarClose" class="text-gray-400 hover:text-white">
+            <button id="sidebarClose" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
         <div class="p-4 flex flex-col gap-2">
-            <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600' : '' }}">Home</a>
-            <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600' : '' }}">Task</a>
-            <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600' : '' }}">Gallery</a>
-            <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('about') ? 'bg-emerald-600' : '' }}">About</a>
-        </div>
-    </div>
-    <div id="mobileMenu" class="fixed inset-y-0 left-0 w-64 bg-gray-800 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col">
-        <div class="p-6 border-b border-gray-700 flex items-center justify-between">
-            <span class="text-lg font-bold">Menu</span>
-            <button id="sidebarClose" class="text-gray-400 hover:text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-        <div class="p-4 flex flex-col gap-2">
-            <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600' : '' }}">
-                Home
-            </a>
-            <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600' : '' }}">
-                Task
-            </a>
-            <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600' : '' }}">
-                Gallery
-            </a>
-            <a href="{{ route('login') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-700 transition {{ request()->routeIs('login') ? 'bg-emerald-600' : '' }}">
-                Login
-            </a>
+            <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600 text-white' : '' }}">Home</a>
+            <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600 text-white' : '' }}">Task</a>
+            <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600 text-white' : '' }}">Gallery</a>
+            <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('about') ? 'bg-emerald-600 text-white' : '' }}">About</a>
+            <a href="{{ route('login') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('login') ? 'bg-emerald-600 text-white' : '' }}">Login</a>
         </div>
     </div>
 
@@ -108,16 +114,16 @@
 
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Gallery Doksli</h1>
-                    <p class="text-gray-400 mt-1">Koleksi Doksli Asli Informatika CFI</p>
-                    <p class="text-red-400">*dibuat untuk warga yang mulai menyerah mencari doksli</p>
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">Gallery Doksli</h1>
+                    <p class="text-gray-600 dark:text-gray-400 mt-1">Koleksi Doksli Asli Informatika CFI</p>
+                    <p class="text-red-500 dark:text-red-400 text-sm">*dibuat untuk warga yang mulai menyerah mencari doksli</p>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3">
                     <div class="relative">
                         <input type="text" id="searchInput" placeholder="Cari judul..."
-                               class="w-48 md:w-64 px-4 py-2.5 pl-10 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-sm">
-                        <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                               class="w-48 md:w-64 px-4 py-2.5 pl-10 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-sm">
+                        <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
                     <button onclick="openUploadModal()"
                             class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition shadow-md hover:shadow-lg active:scale-95">
@@ -130,7 +136,7 @@
             </div>
 
             @if(session('success'))
-                <div class="mb-6 p-4 bg-emerald-900/40 border border-emerald-700 text-emerald-300 rounded-lg flex items-center gap-2">
+                <div class="mb-6 p-4 bg-emerald-100 dark:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 rounded-lg flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     {{ session('success') }}
                 </div>
@@ -139,12 +145,12 @@
             @if($galleries->count() > 0)
                 <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
                     @foreach($galleries as $index => $item)
-                        <div class="gallery-card group bg-gray-800 rounded-xl overflow-hidden border border-gray-600 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 cursor-pointer"
+                        <div class="gallery-card group bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-600 hover:border-emerald-400 dark:hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 cursor-pointer"
                              onclick="openLightbox({{ $item->id }}, '{{ asset($item->image) }}', '{{ addslashes($item->title) }}', '{{ $item->created_at->format('d M Y, H:i') }}')"
                              style="animation-delay: {{ $index * 0.05 }}s">
 
-                            <div class="aspect-square overflow-hidden bg-gray-700 relative">
-                                <div class="absolute inset-0 bg-gray-700 animate-pulse skeleton"></div>
+                            <div class="aspect-square overflow-hidden bg-gray-200 dark:bg-gray-700 relative">
+                                <div class="absolute inset-0 skeleton"></div>
 
                                 <img src="{{ asset($item->image) }}"
                                      alt="{{ $item->title }}"
@@ -155,30 +161,29 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                                     <p class="text-white font-medium text-sm truncate">{{ $item->title }}</p>
                                     <p class="text-gray-300 text-xs">{{ $item->created_at->format('d M Y') }}</p>
-
                                 </div>
                             </div>
 
-                            <div class="p-3 md:hidden bg-gray-700/70">
-                                <h4 class="font-medium text-white text-sm truncate">{{ $item->title }}</h4>
-                                <p class="text-gray-500 text-xs">{{ $item->created_at->format('d M Y') }}</p>
+                            <div class="p-3 md:hidden bg-gray-50 dark:bg-gray-700/70">
+                                <h4 class="font-medium text-gray-900 dark:text-white text-sm truncate">{{ $item->title }}</h4>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs">{{ $item->created_at->format('d M Y') }}</p>
                             </div>
                         </div>
                     @endforeach
                 </div>
             @else
-                <div class="text-center py-20 bg-gray-800/50 rounded-2xl border border-dashed border-gray-600">
-                    <div class="w-24 h-24 mx-auto mb-6 bg-gray-700 rounded-full flex items-center justify-center">
-                        <svg class="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <div class="text-center py-20 bg-white dark:bg-gray-800/50 rounded-2xl border border-dashed border-gray-300 dark:border-gray-600">
+                    <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-white mb-2">Gallery masih kosong</h3>
-                    <p class="text-gray-400 text-sm mb-6 max-w-sm mx-auto">Mulai koleksi dokumentasi kamu dengan mengupload gambar pertama</p>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Gallery masih kosong</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 max-w-sm mx-auto">Mulai koleksi dokumentasi kamu dengan mengupload gambar pertama</p>
                     <button onclick="openUploadModal()"
                             class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition shadow-md hover:shadow-lg active:scale-95">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
-                        Upload
+                        Upload Gambar Pertama
                     </button>
                 </div>
             @endif
@@ -193,6 +198,7 @@
         </div>
     </main>
 
+    {{-- Lightbox (tetap gelap di kedua mode - viewer fokus ke gambar) --}}
     <div id="lightbox" class="fixed inset-0 z-[80] hidden flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
         <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white/70 hover:text-white p-2 rounded-lg hover:bg-white/10 transition z-10">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -226,39 +232,39 @@
         </button>
     </div>
 
-    <footer class="bg-gray-900 border-t border-gray-800 py-8 mt-auto">
+    <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 mt-auto transition-colors">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <div class="flex justify-center items-center gap-2 mb-4">
-                <span class="text-emerald-500 font-bold text-xl">❯</span>
-                <span class="text-white font-semibold">Informatika CFI</span>
+                <span class="text-emerald-600 dark:text-emerald-500 font-bold text-xl">❯</span>
+                <span class="text-gray-900 dark:text-white font-semibold">Informatika CFI</span>
             </div>
-            <p class="text-gray-400 text-sm mb-4">Platform manajemen tugas & doksli untuk mahasiswa Informatika.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Platform manajemen tugas & doksli untuk mahasiswa Informatika.</p>
             <div class="flex justify-center items-center gap-2 mb-6">
-                <span class="text-gray-400 text-sm">Dibuat dengan</span>
+                <span class="text-gray-500 dark:text-gray-400 text-sm">Dibuat dengan</span>
                 <span class="text-red-500 text-lg">❤️</span>
-                <span class="text-gray-400 text-sm">oleh Engginer</span>
+                <span class="text-gray-500 dark:text-gray-400 text-sm">oleh Engginer</span>
             </div>
-            <p class="text-gray-500 text-xs">&copy; {{ date('Y') }} Informatika CFI. All rights reserved.</p>
+            <p class="text-gray-500 dark:text-gray-500 text-xs">&copy; {{ date('Y') }} Informatika CFI. All rights reserved.</p>
         </div>
     </footer>
 
+    {{-- Upload Modal --}}
     <div id="uploadModal" class="fixed inset-0 z-[90] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 transition-opacity duration-300">
-        <div class="bg-gray-800 rounded-2xl border border-gray-700 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-300 scale-95 opacity-0" id="uploadModalContent">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-300 scale-95 opacity-0" id="uploadModalContent">
             
-            <!-- Header -->
-            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-900/40 flex items-center justify-center">
-                        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-xl font-bold text-white">Upload Doksli Baru</h3>
-                        <p class="text-xs text-gray-400">Tambahkan foto ke galeri kelas</p>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Upload Doksli Baru</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Tambahkan foto ke galeri kelas</p>
                     </div>
                 </div>
-                <button onclick="closeUploadModal()" class="text-gray-400 hover:text-white transition p-1 rounded-lg hover:bg-gray-700">
+                <button onclick="closeUploadModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -269,46 +275,46 @@
                 @csrf
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">
-                        Judul Foto <span class="text-red-400">*</span>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Judul Foto <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="title" id="uploadTitle" required maxlength="255"
-                        class="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+                        class="w-full px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
                         placeholder="Contoh: Dava lagi ngabuburit">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">
-                        Gambar <span class="text-red-400">*</span>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Gambar <span class="text-red-500">*</span>
                     </label>
-                    <div id="dropZone" class="border-2 border-dashed border-gray-600 rounded-xl p-6 text-center cursor-pointer hover:border-emerald-500 hover:bg-gray-700/30 transition-all duration-200 relative">
+                    <div id="dropZone" class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center cursor-pointer hover:border-emerald-500 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-all duration-200 relative bg-gray-50 dark:bg-gray-800">
                         <input type="file" name="image" id="uploadImage" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                         
                         <div id="dropZoneContent" class="pointer-events-none">
-                            <svg class="w-12 h-12 mx-auto text-gray-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-12 h-12 mx-auto text-gray-400 dark:text-gray-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                             </svg>
-                            <p class="text-sm text-gray-400 mb-1">
-                                <span class="text-emerald-400 font-medium">Klik untuk pilih</span> atau drag & drop
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                <span class="text-emerald-600 dark:text-emerald-400 font-medium">Klik untuk pilih</span> atau drag & drop
                             </p>
                             <p class="text-xs text-gray-500">PNG, JPG, GIF, WEBP (Maks. 5MB)</p>
                         </div>
 
                         <div id="imagePreview" class="hidden">
                             <img id="previewImg" src="" alt="Preview" class="max-h-48 mx-auto rounded-lg shadow-lg">
-                            <p id="fileName" class="text-xs text-gray-400 mt-2 truncate"></p>
-                            <button type="button" onclick="removeImage(event)" class="mt-2 text-xs text-red-400 hover:text-red-300 font-medium">
+                            <p id="fileName" class="text-xs text-gray-600 dark:text-gray-400 mt-2 truncate"></p>
+                            <button type="button" onclick="removeImage(event)" class="mt-2 text-xs text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 font-medium">
                                 Hapus gambar
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div id="uploadError" class="hidden p-3 bg-red-900/30 border border-red-700 rounded-lg text-red-300 text-sm"></div>
+                <div id="uploadError" class="hidden p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg text-red-600 dark:text-red-300 text-sm"></div>
 
                 <div class="flex gap-3 pt-2">
                     <button type="button" onclick="closeUploadModal()"
-                            class="flex-1 px-4 py-2.5 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium rounded-lg transition">
+                            class="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-white text-sm font-medium rounded-lg transition">
                         Batal
                     </button>
                     <button type="submit" id="submitBtn"
@@ -322,6 +328,7 @@
             </form>
         </div>
     </div>
+
     <script>
         @php
             $galleryJson = $galleries->map(fn($g) => [
@@ -390,8 +397,18 @@
 
         function copyImageLink() {
             const src = document.getElementById('lightboxImg').src;
+            const isDark = document.documentElement.classList.contains('dark');
             navigator.clipboard.writeText(src).then(() => {
-                Swal.fire({ icon: 'success', title: 'Link disalin!', timer: 1500, showConfirmButton: false, background: '#1f2937', color: '#fff', position: 'top-end', toast: true });
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Link disalin!',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    toast: true,
+                    background: isDark ? '#1f2937' : '#ffffff',
+                    color: isDark ? '#fff' : '#111827'
+                });
             });
         }
 
@@ -400,7 +417,7 @@
 
         function filterGallery() {
             const query = searchInput.value.toLowerCase();
-            const filter = filterSelect.value;
+            const filter = filterSelect?.value;
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -434,6 +451,7 @@
         document.querySelectorAll('.delete-form').forEach(form => {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
+                const isDark = document.documentElement.classList.contains('dark');
                 Swal.fire({
                     title: 'Hapus gambar ini?',
                     text: 'Tidak bisa dikembalikan!',
@@ -442,8 +460,8 @@
                     confirmButtonColor: '#dc2626',
                     cancelButtonColor: '#4b5563',
                     confirmButtonText: 'Ya, Hapus!',
-                    background: '#1f2937',
-                    color: '#fff'
+                    background: isDark ? '#1f2937' : '#ffffff',
+                    color: isDark ? '#fff' : '#111827'
                 }).then((result) => {
                     if (result.isConfirmed) form.submit();
                 });
@@ -474,7 +492,20 @@
         });
 
         @if(session('success'))
-            Swal.fire({ icon: 'success', title: 'Berhasil', text: '{{ session('success') }}', timer: 3000, showConfirmButton: false, background: '#1f2937', color: '#fff', position: 'top-end', toast: true });
+            (() => {
+                const isDark = document.documentElement.classList.contains('dark');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: '{{ session('success') }}',
+                    timer: 3000,
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    toast: true,
+                    background: isDark ? '#1f2937' : '#ffffff',
+                    color: isDark ? '#fff' : '#111827'
+                });
+            })();
         @endif
 
         const uploadModal = document.getElementById('uploadModal');
@@ -557,13 +588,13 @@
         ['dragenter', 'dragover'].forEach(event => {
             dropZone.addEventListener(event, (e) => {
                 e.preventDefault();
-                dropZone.classList.add('border-emerald-500', 'bg-gray-700/30');
+                dropZone.classList.add('border-emerald-500');
             });
         });
         ['dragleave', 'drop'].forEach(event => {
             dropZone.addEventListener(event, (e) => {
                 e.preventDefault();
-                dropZone.classList.remove('border-emerald-500', 'bg-gray-700/30');
+                dropZone.classList.remove('border-emerald-500');
             });
         });
         dropZone.addEventListener('drop', (e) => {
