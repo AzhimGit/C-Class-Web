@@ -3,6 +3,7 @@
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\CardController;
 use App\Models\Gallery;
 use App\Models\Task;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,8 @@ Route::get('/tugas', [TaskController::class, 'publicIndex'])->name('tasks.public
 
 Route::post('/reports', [\App\Http\Controllers\ReportController::class, 'store'])
     ->middleware('throttle:5,60')->name('reports.store');
+
+Route::get('/cards', [CardController::class, 'index'])->name('cards');
 
 Route::get('/dashboard', function () {
     $user = auth()->user();
@@ -118,6 +121,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/dashboard/announcements/{announcement}/archive', [\App\Http\Controllers\AnnouncementController::class, 'archive'])->name('dashboard.announcements.archive');
     Route::delete('/dashboard/announcements/{announcement}', [\App\Http\Controllers\AnnouncementController::class, 'destroy'])->name('dashboard.announcements.destroy');
 
+    Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
+    Route::delete('/cards/{card}', [CardController::class, 'destroy'])->name('cards.destroy');
+    Route::get('/dashboard/cards', [CardController::class, 'dashboard'])->name('dashboard.cards');
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
