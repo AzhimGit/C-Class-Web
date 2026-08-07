@@ -203,7 +203,7 @@
                 </button>
             </div>
             
-            <form id="uploadForm" action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <form id="uploadForm" action="{{ route('galeri.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 
                 <div>

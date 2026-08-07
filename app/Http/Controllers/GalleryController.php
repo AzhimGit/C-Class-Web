@@ -30,11 +30,6 @@ class GalleryController extends Controller
         return view('gallery.doksli', compact('galleries'));
     }
 
-    public function create()
-    {
-        return view('gallery.createdoksli');
-    }
-
     public function store(Request $request)
     {
         if (!in_array(auth()->user()->role, ['admin', 'manager'])) {
@@ -105,7 +100,7 @@ class GalleryController extends Controller
             'image' => $path,
         ]);
 
-        return redirect()->route('galeri')->with('success', 'Gambar berhasil diupload! ');
+        return back()->with('success', 'Gambar berhasil diupload! ');
     }
 
     public function destroy(Gallery $gallery)

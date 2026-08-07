@@ -27,7 +27,8 @@ Route::get('/galeri', function () {
     return view('galeri', compact('galleries'));
 })->name('galeri');
 
-Route::post('/galeri', [GalleryController::class, 'storePublic'])->name('galeri.store');
+Route::post('/galeri', [GalleryController::class, 'storePublic'])
+    ->middleware('throttle:10,60')->name('galeri.store');
 
 Route::get('/about', function () {
     return view('about');
@@ -35,7 +36,8 @@ Route::get('/about', function () {
 
 Route::get('/tugas', [TaskController::class, 'publicIndex'])->name('tasks.public');
 
-Route::post('/reports', [\App\Http\Controllers\ReportController::class, 'store'])->name('reports.store');
+Route::post('/reports', [\App\Http\Controllers\ReportController::class, 'store'])
+    ->middleware('throttle:5,60')->name('reports.store');
 
 Route::get('/dashboard', function () {
     $user = auth()->user();
@@ -84,10 +86,6 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('tasks', TaskController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-
-    Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.doksli');
-    Route::get('/gallery/create', [GalleryController::class, 'create'])->name('gallery.createdoksli');
-    Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
 
     Route::get('/dashboard/gallery', function () {
         $user = auth()->user();
