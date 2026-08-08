@@ -27,9 +27,9 @@
             100% { width: 100%; }
         }
 
-#progressBar {
-    animation: progress 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+        #progressBar {
+            animation: progress 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
 
         main {
             opacity: 0;
