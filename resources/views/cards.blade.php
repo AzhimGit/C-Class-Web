@@ -90,7 +90,6 @@
             <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600 text-white' : '' }}">Gallery</a>
             <a href="{{ route('cards') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('cards') ? 'bg-emerald-600 text-white' : '' }}">Cards</a>
             <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('about') ? 'bg-emerald-600 text-white' : '' }}">About</a>
-            <a href="{{ route('login') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('login') ? 'bg-emerald-600 text-white' : '' }}">Login</a>
         </div>
     </div>
 
