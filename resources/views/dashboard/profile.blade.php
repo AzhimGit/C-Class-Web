@@ -94,57 +94,67 @@
 
 @section('content')
 <div class="p-4 md:p-8 max-w-5xl mx-auto">
-    
-    
     <div class="profile-section mb-8">
         <div class="bg-gradient-to-r from-gray-700/60 to-gray-800/60 rounded-2xl border border-gray-600 p-6 md:p-8 profile-card">
-            <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-                
-                <div class="relative">
-                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-emerald-500 via-emerald-600 to-emerald-700 flex items-center justify-center text-white font-bold text-3xl md:text-4xl shadow-xl avatar-pulse">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+            <div class="flex flex-col lg:flex-row items-center lg:items-start gap-6">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-6 flex-1 w-full">
+                    <div class="relative flex-shrink-0">
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-emerald-500 via-emerald-600 to-emerald-700 flex items-center justify-center text-white font-bold text-3xl md:text-4xl shadow-xl avatar-pulse">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-8 h-8 bg-gray-900 rounded-full border-2 border-emerald-500 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="absolute -bottom-1 -right-1 w-8 h-8 bg-gray-900 rounded-full border-2 border-emerald-500 flex items-center justify-center">
-                        <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
+                    
+                    <div class="flex-1 text-center md:text-left min-w-0">
+                        <h1 class="text-2xl md:text-3xl font-bold text-white mb-1 truncate">
+                            {{ auth()->user()->name }}
+                        </h1>
+                        <p class="text-gray-400 mb-3 flex items-center justify-center md:justify-start gap-2 truncate">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="truncate">{{ auth()->user()->email }}</span>
+                        </p>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium
+                                {{ auth()->user()->role === 'admin' ? 'bg-red-900/40 text-red-300 border border-red-700/50' : 
+                                (auth()->user()->role === 'manager' ? 'bg-purple-900/40 text-purple-300 border border-purple-700/50' : 
+                                'bg-emerald-900/40 text-emerald-300 border border-emerald-700/50') }}">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                {{ config('roles.list.' . auth()->user()->role) ?? ucfirst(auth()->user()->role) }}
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gray-700/60 text-gray-300 border border-gray-600">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                </svg>
+                                Bergabung {{ auth()->user()->created_at->format('d M Y') }}
+                            </span>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="flex-1 text-center md:text-left">
-                    <h1 class="text-2xl md:text-3xl font-bold text-white mb-1">
-                        {{ auth()->user()->name }}
-                    </h1>
-                    <p class="text-gray-400 mb-3 flex items-center justify-center md:justify-start gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                        {{ auth()->user()->email }}
-                    </p>
-                    <div class="flex flex-wrap gap-2 justify-center md:justify-start">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium
-                            {{ auth()->user()->role === 'admin' ? 'bg-red-900/40 text-red-300 border border-red-700/50' : 
-                               (auth()->user()->role === 'manager' ? 'bg-purple-900/40 text-purple-300 border border-purple-700/50' : 
-                               'bg-emerald-900/40 text-emerald-300 border border-emerald-700/50') }}">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                <div class="w-full lg:w-auto flex-shrink-0">
+                    <form method="POST" action="{{ route('logout') }}" id="logoutForm" class="w-full lg:w-auto">
+                        @csrf
+                        <button type="button" onclick="confirmLogout()" 
+                                class="btn-lift w-full lg:w-auto px-5 py-2.5 bg-yellow-600/90 hover:bg-yellow-600 text-white font-medium rounded-lg transition border border-yellow-500/50 hover:border-yellow-500 flex items-center justify-center gap-2 shadow-md hover:shadow-yellow-500/20">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                             </svg>
-                            {{ config('roles.list.' . auth()->user()->role) ?? ucfirst(auth()->user()->role) }}
-                        </span>
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gray-700/60 text-gray-300 border border-gray-600">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                            </svg>
-                            Bergabung {{ auth()->user()->created_at->format('d M Y') }}
-                        </span>
-                    </div>
+                            Logout
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
         <div class="profile-section profile-card bg-gray-700/60 rounded-2xl border border-gray-600 p-6">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-lg bg-emerald-900/40 flex items-center justify-center">
@@ -368,82 +378,6 @@
             </form>
         </div>
     </div>
-
-    
-    
-    <div class="profile-section profile-card session-card rounded-2xl border border-gray-600 p-6 mt-6">
-        <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 rounded-lg bg-purple-900/40 flex items-center justify-center">
-                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                </svg>
-            </div>
-            <div>
-                <h2 class="text-lg font-semibold text-white">Sesi Aktif & Keamanan</h2>
-                <p class="text-xs text-gray-400">Informasi sesi login dan logout akun</p>
-            </div>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            
-            <div class="bg-gray-800/40 rounded-xl p-4 border border-gray-700">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-900/30 flex items-center justify-center">
-                        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400">Perangkat</p>
-                        <p class="text-sm text-white font-medium">Browser Aktif</p>
-                    </div>
-                </div>
-            </div>
-            
-            
-            <div class="bg-gray-800/40 rounded-xl p-4 border border-gray-700">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-blue-900/30 flex items-center justify-center">
-                        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400">Login Terakhir</p>
-                        <p class="text-sm text-white font-medium">{{ now()->format('H:i') }} WIB</p>
-                    </div>
-                </div>
-            </div>
-            
-            
-            <div class="bg-gray-800/40 rounded-xl p-4 border border-gray-700">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-purple-900/30 flex items-center justify-center">
-                        <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400">Lokasi</p>
-                        <p class="text-sm text-white font-medium">Indonesia</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <form method="POST" action="{{ route('logout') }}" id="logoutForm">
-            @csrf
-            <button type="button" onclick="confirmLogout()" 
-                    class="btn-lift w-full sm:w-auto px-5 py-2.5 bg-yellow-600/90 hover:bg-yellow-600 text-white font-medium rounded-lg transition border border-yellow-500/50 hover:border-yellow-500 flex items-center justify-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                </svg>
-                Logout dari Akun
-            </button>
-        </form>
-    </div>
-
     
     <div class="profile-section danger-border bg-red-900/10 rounded-2xl border border-red-700/50 p-6 mt-6">
         <div class="flex items-start gap-4">
