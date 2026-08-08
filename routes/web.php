@@ -122,6 +122,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/dashboard/announcements/{announcement}', [\App\Http\Controllers\AnnouncementController::class, 'destroy'])->name('dashboard.announcements.destroy');
 
     Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
+    Route::patch('/cards/{card}', [CardController::class, 'update'])->name('cards.update');
     Route::delete('/cards/{card}', [CardController::class, 'destroy'])->name('cards.destroy');
     Route::get('/dashboard/cards', [CardController::class, 'dashboard'])->name('dashboard.cards');
 });

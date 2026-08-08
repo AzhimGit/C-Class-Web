@@ -134,7 +134,6 @@
                             </div>
                             <h3 class="font-semibold text-gray-900 dark:text-white text-sm truncate">{{ $card->name }}</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{{ $card->description }}</p>
-                            <span class="text-[11px] text-emerald-600 dark:text-emerald-400 truncate mt-auto">{{ $domain }}</span>
                         </a>
                     @endforeach
                 </div>
