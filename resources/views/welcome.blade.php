@@ -27,9 +27,9 @@
             100% { width: 100%; }
         }
 
-        #progressBar {
-            animation: progress 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
+#progressBar {
+    animation: progress 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
 
         main {
             opacity: 0;
@@ -802,15 +802,15 @@
                         mainContent.classList.add('ready');
                     }
                     document.body.style.overflow = '';
-                }, 300);
+                }, 200);
                 
                 setTimeout(() => {
                     if (loadingScreen) {
                         loadingScreen.style.display = 'none';
                     }
-                }, 600);
+                }, 400);
                 
-            }, 2000);
+            }, 1000);
         });
 
         document.body.style.overflow = 'hidden';
