@@ -238,11 +238,6 @@
                 <span class="text-gray-900 dark:text-white font-semibold">Informatika CFI</span>
             </div>
             <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Platform manajemen tugas & doksli untuk mahasiswa Informatika.</p>
-            <div class="flex justify-center items-center gap-2 mb-6">
-                <span class="text-gray-500 dark:text-gray-400 text-sm">Dibuat dengan</span>
-                <span class="text-red-500 text-lg">❤️</span>
-                <span class="text-gray-500 dark:text-gray-400 text-sm">oleh Engginer</span>
-            </div>
             <p class="text-gray-500 dark:text-gray-500 text-xs">&copy; {{ date('Y') }} Informatika CFI. All rights reserved.</p>
         </div>
     </footer>

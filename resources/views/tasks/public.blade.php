@@ -299,11 +299,6 @@
             <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
                 Platform manajemen tugas & doksli untuk mahasiswa Informatika.
             </p>
-            <div class="flex justify-center items-center gap-2 mb-6">
-                <span class="text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm transition">Dibuat dengan</span>
-                <span class="text-red-500 text-lg leading-none hover:scale-110 transition flex items-center">❤️</span>
-                <span class="text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm transition">oleh Engginer</span>
-            </div>
             <p class="text-gray-500 dark:text-gray-500 text-xs">
                 &copy; {{ date('Y') }} Informatika CFI. All rights reserved.
             </p>
