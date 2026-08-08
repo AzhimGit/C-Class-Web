@@ -54,12 +54,30 @@
         }
         .calendar-day.other-month { opacity: 0.4; }
 
-        /* Dark mode calendar */
+        .calendar-day.sunday-col {
+            background-color: rgba(239, 68, 68, 0.32);
+        }
+        .calendar-day.sunday-col:hover {
+            background-color: rgba(181, 52, 52, 0.35);
+        }
+        .calendar-day.sunday-col.today {
+            background-color: rgba(16, 185, 129, 0.08); 
+        }
+
         html.dark .calendar-day { background-color: #1f2937; }
         html.dark .calendar-day:hover { background-color: rgba(55, 65, 81, 0.5); }
         html.dark .calendar-day.today {
             background-color: rgba(16, 185, 129, 0.1);
             border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        html.dark .calendar-day.sunday-col {
+            background-color: rgba(239, 68, 68, 0.31);
+        }
+        html.dark .calendar-day.sunday-col:hover {
+            background-color: rgba(255, 148, 148, 0.49);
+        }
+        html.dark .calendar-day.sunday-col.today {
+            background-color: rgba(16, 185, 129, 0.1);
         }
         
         .task-badge { animation: slideIn 0.3s ease-out; }
@@ -138,7 +156,6 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Kalender Tugas</h1>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Kelola dan lihat jadwal tugas</p>
                 </div>
                 
                 <div class="flex w-full sm:w-auto bg-gray-200/70 dark:bg-gray-700/60 p-1 rounded-full border border-gray-300 dark:border-gray-600 justify-center">
@@ -338,21 +355,25 @@
             const today = new Date();
             const todayStr = today.toISOString().split('T')[0];
             
-            // Class yang berbeda untuk light/dark
             const gridClass = isDark 
                 ? 'bg-gray-700 border border-gray-600' 
                 : 'bg-gray-200 border border-gray-300';
             const headerClass = isDark 
-                ? 'bg-gray-800 text-gray-400' 
-                : 'bg-gray-100 text-gray-600';
+                ? 'bg-gray-800' 
+                : 'bg-gray-100';
             const dayNumLight = isDark ? 'text-white' : 'text-gray-900';
             const dayNumOther = isDark ? 'text-gray-500' : 'text-gray-400';
             const todayNumClass = 'text-emerald-600 dark:text-emerald-400';
+            const sundayNumClass = isDark ? 'text-red-400' : 'text-red-600';
 
             let html = `<div class="grid grid-cols-7 gap-px ${gridClass} rounded-lg overflow-hidden">`;
             
-            DAYS_ID.forEach(day => {
-                html += `<div class="${headerClass} p-2 text-center text-xs font-medium">${day}</div>`;
+            DAYS_ID.forEach((day, index) => {
+                const isSunday = index === 0;
+                const textColor = isSunday 
+                    ? 'text-red-600 dark:text-red-400' 
+                    : (isDark ? 'text-gray-400' : 'text-gray-600');
+                html += `<div class="${headerClass} ${textColor} p-2 text-center text-xs font-medium ${isSunday ? 'font-semibold' : ''}">${day}</div>`;
             });
             
             const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
@@ -377,17 +398,32 @@
                 const dateStr = dateObj.toISOString().split('T')[0];
                 isToday = dateStr === todayStr;
                 
+                const isSundayCol = (i % 7) === 0;
+                
                 const dayTasks = getTasksForDate(dateObj);
                 
-                html += `<div class="calendar-day p-2 ${isToday ? 'today' : ''} ${!isCurrentMonth ? 'other-month' : ''}">`;
-                html += `<span class="text-sm font-medium ${isToday ? todayNumClass : (isCurrentMonth ? dayNumLight : dayNumOther)}">${dayNum}</span>`;
+                const sundayClass = isSundayCol ? 'sunday-col' : '';
+                
+                html += `<div class="calendar-day p-2 ${sundayClass} ${isToday ? 'today' : ''} ${!isCurrentMonth ? 'other-month' : ''}">`;
+                
+                let numColor;
+                if (isToday) {
+                    numColor = todayNumClass;
+                } else if (isSundayCol && isCurrentMonth) {
+                    numColor = sundayNumClass;
+                } else if (isCurrentMonth) {
+                    numColor = dayNumLight;
+                } else {
+                    numColor = dayNumOther;
+                }
+                
+                html += `<span class="text-sm font-medium ${numColor}">${dayNum}</span>`;
                 
                 if (dayTasks.length > 0) {
                     html += '<div class="mt-1 space-y-1">';
                     const showTasks = dayTasks.slice(0, 3);
                     showTasks.forEach(task => {
                         const isExpired = new Date(task.deadline_at) < new Date();
-                        // Badge colors untuk light & dark mode
                         const badgeClass = isExpired 
                             ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-700/50' 
                             : 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700/50';
@@ -486,7 +522,6 @@
             }, 300);
         }
 
-        // Re-render kalender saat tema berubah agar class dinamis menyesuaikan
         function observeThemeChange() {
             const observer = new MutationObserver(() => renderCalendar());
             observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
