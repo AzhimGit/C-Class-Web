@@ -152,27 +152,39 @@
 
     <main class="flex-1 p-4 md:p-6">
         <div class="max-w-7xl mx-auto">
-            
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Kalender Tugas</h1>
-                </div>
-                
-                <div class="flex w-full sm:w-auto bg-gray-200/70 dark:bg-gray-700/60 p-1 rounded-full border border-gray-300 dark:border-gray-600 justify-center">
-                    <a href="{{ route('tasks.public', ['status' => 'active']) }}" 
-                    class="flex-1 sm:flex-none px-4 py-2 rounded-full text-sm font-medium transition text-center flex items-center justify-center {{ $status === 'active' ? 'bg-emerald-600 text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
-                        Aktif
-                    </a>
-                    <a href="{{ route('tasks.public', ['status' => 'expired']) }}" 
-                    class="flex-1 sm:flex-none px-4 py-2 rounded-full text-sm font-medium transition text-center flex items-center justify-center {{ $status === 'expired' ? 'bg-red-600 text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
-                        Terlewat
-                    </a>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-                
-                <div class="lg:col-span-1 space-y-4">
+                <div class="lg:col-span-3 order-2 lg:order-1">
+                    <div class="bg-white dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-600 p-4 md:p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-bold text-gray-900 dark:text-white" id="calendarTitle">April 2026</h2>
+                            <div class="flex gap-2">
+                                <button onclick="changeMonth(-1)" class="month-btn p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </button>
+                                <button onclick="goToToday()" class="month-btn px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600 text-sm font-medium hidden sm:block">
+                                    Hari Ini
+                                </button>
+                                <button onclick="changeMonth(1)" class="month-btn p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="calendarGrid" class="calendar-fade-in">
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-1 space-y-4 order-1 lg:order-2">
+                    <div class="flex w-full bg-gray-200/70 dark:bg-gray-700/60 p-1 rounded-full border border-gray-300 dark:border-gray-600">
+                        <a href="{{ route('tasks.public', ['status' => 'active']) }}" 
+                        class="flex-1 px-4 py-2 rounded-full text-sm font-medium transition text-center flex items-center justify-center {{ $status === 'active' ? 'bg-emerald-600 text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
+                            Aktif
+                        </a>
+                        <a href="{{ route('tasks.public', ['status' => 'expired']) }}" 
+                        class="flex-1 px-4 py-2 rounded-full text-sm font-medium transition text-center flex items-center justify-center {{ $status === 'expired' ? 'bg-red-600 text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }}">
+                            Terlewat
+                        </a>
+                    </div>
                     <div class="bg-white dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-600 p-3 shadow-sm">
                         <h3 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                             @if($status === 'active')
@@ -207,28 +219,6 @@
                             @if($tasks->count() > 5)
                             <p class="text-gray-500 dark:text-gray-400 text-xs text-center mt-2">+{{ $tasks->count() - 5 }} lainnya</p>
                             @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-3">
-                    <div class="bg-white dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-600 p-4 md:p-6 shadow-sm">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-bold text-gray-900 dark:text-white" id="calendarTitle">April 2026</h2>
-                            <div class="flex gap-2">
-                                <button onclick="changeMonth(-1)" class="month-btn p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                                </button>
-                                <button onclick="goToToday()" class="month-btn px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600 text-sm font-medium hidden sm:block">
-                                    Hari Ini
-                                </button>
-                                <button onclick="changeMonth(1)" class="month-btn p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition border border-gray-300 dark:border-gray-600">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div id="calendarGrid" class="calendar-fade-in">
                         </div>
                     </div>
                 </div>
@@ -300,7 +290,7 @@
         </div>
     </div>
 
-    <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 mt-auto transition-colors">
+    <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 mt-40 transition-colors">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <div class="flex justify-center items-center gap-2 mb-4">
                 <span class="text-emerald-600 dark:text-emerald-500 font-bold text-xl">❯</span>
