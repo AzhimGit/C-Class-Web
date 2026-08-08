@@ -56,7 +56,7 @@
                 @elseif(auth()->user()->role === 'manager')
                     Pantau tugas dari semua Ketua divisi
                 @else
-                    Daftar tugas untuk mata kuliah Anda
+                    Daftar tugas untuk mata kuliah 
                 @endif
             </p>
         </div>

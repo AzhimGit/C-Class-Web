@@ -43,13 +43,6 @@
                 </div>
                 Buat Tugas Baru
             </h1>
-            <p class="text-gray-400 mt-1">
-                @if(in_array(auth()->user()->role, ['admin', 'manager']))
-                    Tambahkan tugas untuk mata kuliah tertentu
-                @else
-                    Tugas akan otomatis masuk ke divisi Anda
-                @endif
-            </p>
         </div>
         
         <a href="{{ route('tasks.index') }}" 
@@ -94,7 +87,6 @@
                         <option value="{{ $key }}" {{ old('course_key') == $key ? 'selected' : '' }}>{{ $name }}</option>
                     @endforeach
                 </select>
-                <p class="text-xs text-gray-500 mt-2">Pilih mata kuliah yang akan menerima tugas ini</p>
             @else
                 @php $courseKey = config("roles.course_mapping." . auth()->user()->role); @endphp
                 <input type="hidden" name="course_key" value="{{ $courseKey }}">
@@ -107,7 +99,6 @@
                     </div>
                     <div class="flex-1">
                         <p class="text-white font-medium">{{ config('roles.courses.' . $courseKey) }}</p>
-                        <p class="text-xs text-gray-400">Otomatis terisi sesuai divisi Anda</p>
                     </div>
                 </div>
             @endif
@@ -120,7 +111,6 @@
             @enderror
         </div>
 
-        <div class="form-section bg-gray-700/60 rounded-xl border border-gray-600 p-6">
         <div class="form-section bg-gray-700/60 rounded-xl border border-gray-600 p-6">
             <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,9 +126,8 @@
                     </label>
                     <input type="text" name="title" value="{{ old('title') }}" required maxlength="255"
                            class="w-full px-4 py-2.5 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
-                           placeholder="Contoh: Tugas Implementasi Struktur Data">
+                           placeholder="Ketik judul tugas">
                     <div class="flex justify-between items-center mt-1">
-                        <p class="text-xs text-gray-500">Buat judul yang jelas dan deskriptif</p>
                         <span class="text-xs text-gray-500 char-counter"><span id="titleCount">0</span>/255</span>
                     </div>
                     @error('title') 
@@ -209,9 +198,9 @@
             <div>
                 <textarea name="description" rows="6" required 
                           class="w-full px-4 py-2.5 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition resize-none"
-                          placeholder="Jelaskan detail tugas, instruksi, dan hal-hal yang perlu diperhatikan...">{{ old('description') }}</textarea>
+                          >{{ old('description') }}</textarea>
                 <p class="text-xs text-gray-500 mt-2">
-                     Tekan Enter untuk membuat paragraf baru. Deskripsi yang jelas akan membantu mahasiswa memahami tugas dengan baik.
+                     Tekan Enter untuk membuat paragraf baru.
                 </p>
                 @error('description') 
                     <p class="text-red-400 text-xs mt-1 flex items-center gap-1">
@@ -244,7 +233,6 @@
                     <input type="url" name="material_link" value="{{ old('material_link') }}" 
                            placeholder="https://drive.google.com/..."
                            class="w-full px-4 py-2.5 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
-                    <p class="text-xs text-gray-500 mt-1">Link ke materi pembelajaran (PDF, video, dll)</p>
                     @error('material_link') 
                         <p class="text-red-400 text-xs mt-1 flex items-center gap-1">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -265,7 +253,6 @@
                     <input type="url" name="submission_link" value="{{ old('submission_link') }}" 
                            placeholder="https://forms.google.com/..."
                            class="w-full px-4 py-2.5 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
-                    <p class="text-xs text-gray-500 mt-1">Link untuk pengumpulan tugas (form, drive, dll)</p>
                     @error('submission_link') 
                         <p class="text-red-400 text-xs mt-1 flex items-center gap-1">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -276,7 +263,6 @@
             </div>
         </div>
 
-        <div class="form-section bg-gray-700/60 rounded-xl border border-gray-600 p-6">
         <div class="form-section bg-gray-700/60 rounded-xl border border-gray-600 p-6">
             <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -297,7 +283,6 @@
                     </label>
                     <input type="datetime-local" name="starts_at" value="{{ old('starts_at') }}" required 
                            class="w-full px-4 py-2.5 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
-                    <p class="text-xs text-gray-500 mt-1">Kapan tugas mulai dapat dikerjakan</p>
                     @error('starts_at') 
                         <p class="text-red-400 text-xs mt-1 flex items-center gap-1">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -317,7 +302,6 @@
                     </label>
                     <input type="datetime-local" name="deadline_at" value="{{ old('deadline_at') }}" required 
                            class="w-full px-4 py-2.5 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
-                    <p class="text-xs text-gray-500 mt-1">Batas akhir pengumpulan tugas</p>
                     @error('deadline_at') 
                         <p class="text-red-400 text-xs mt-1 flex items-center gap-1">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -340,7 +324,7 @@
             </div>
         </div>
 
-        <div class="form-section flex flex-col sm:flex-row gap-3 pt-4">
+        <div class="form-section flex flex-col sm:flex-row gap-3">
             <a href="{{ route('tasks.index') }}" 
                class="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg transition text-center border border-gray-600">
                 Batal
