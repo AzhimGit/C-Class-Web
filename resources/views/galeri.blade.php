@@ -114,8 +114,7 @@
 
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">Gallery Doksli</h1>
-                    <p class="text-gray-600 dark:text-gray-400 mt-1">Koleksi Doksli Asli Informatika CFI</p>
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">Koleksi Doksli Asli Informatika CFI</h1>
                     <p class="text-red-500 dark:text-red-400 text-sm">*dibuat untuk warga yang mulai menyerah mencari doksli</p>
                 </div>
 
