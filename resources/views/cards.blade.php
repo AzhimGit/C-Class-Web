@@ -111,29 +111,31 @@
                         @php $domain = parse_url($card->link, PHP_URL_HOST) ?: 'unknown'; @endphp
 
                         <a href="{{ $card->link }}" target="_blank" rel="noopener noreferrer"
-                           class="card-item group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 hover:border-emerald-400 dark:hover:border-emerald-500/50 hover:-translate-y-1 transition-all duration-200 shadow-sm flex flex-col gap-2"
-                           data-name="{{ strtolower($card->name) }}"
-                           data-desc="{{ strtolower($card->description ?? '') }}"
-                           data-domain="{{ strtolower($domain) }}"
-                           style="animation-delay: {{ $index * 0.03 }}s">
-                            <div class="flex items-center justify-between">
-                                <div class="favicon-wrap">
+                        class="card-item group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 hover:border-emerald-400 dark:hover:border-emerald-500/50 hover:-translate-y-1 transition-all duration-200 shadow-sm flex flex-col gap-2"
+                        data-name="{{ strtolower($card->name) }}"
+                        data-desc="{{ strtolower($card->description ?? '') }}"
+                        data-domain="{{ strtolower($domain) }}"
+                        style="animation-delay: {{ $index * 0.03 }}s">
+
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <div class="favicon-wrap flex-shrink-0">
                                     <img src="https://www.google.com/s2/favicons?domain={{ $domain }}&sz=64"
-                                         alt="{{ $domain }}"
-                                         loading="lazy"
-                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        alt="{{ $domain }}"
+                                        loading="lazy"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div class="favicon-fallback bg-emerald-100 dark:bg-emerald-900/40">
                                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
                                         </svg>
                                     </div>
                                 </div>
-                                <svg class="w-4 h-4 text-gray-400 group-hover:text-emerald-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                                <h3 class="flex-1 font-semibold text-gray-900 dark:text-white text-sm truncate min-w-0">{{ $card->name }}</h3>
+
+                                <svg class="w-4 h-4 text-gray-400 group-hover:text-emerald-500 transition flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-gray-900 dark:text-white text-sm truncate">{{ $card->name }}</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{{ $card->description }}</p>
                         </a>
                     @endforeach
                 </div>
