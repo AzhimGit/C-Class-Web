@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cards - Informatika CFI</title>
+    <title>Card - Informatika CFI</title>
     @include('partials.theme')
 
     <style>
@@ -69,7 +69,7 @@
                 <a href="{{ route('home') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('home') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Home</a>
                 <a href="{{ route('tasks.public') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('tasks.public') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Task</a>
                 <a href="{{ route('galeri') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('galeri') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Gallery</a>
-                <a href="{{ route('cards') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('cards') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Cards</a>
+                <a href="{{ route('cards') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('cards') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">Card</a>
                 <a href="{{ route('about') }}" class="nav-underline px-4 py-2 text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-gray-900 dark:text-white active' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white' }}">About</a>
             </div>
             @include('partials.theme-toggle')
@@ -88,7 +88,7 @@
             <a href="{{ route('home') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('home') ? 'bg-emerald-600 text-white' : '' }}">Home</a>
             <a href="{{ route('tasks.public') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('tasks.public') ? 'bg-emerald-600 text-white' : '' }}">Task</a>
             <a href="{{ route('galeri') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('galeri') ? 'bg-emerald-600 text-white' : '' }}">Gallery</a>
-            <a href="{{ route('cards') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('cards') ? 'bg-emerald-600 text-white' : '' }}">Cards</a>
+            <a href="{{ route('cards') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('cards') ? 'bg-emerald-600 text-white' : '' }}">Card</a>
             <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('about') ? 'bg-emerald-600 text-white' : '' }}">About</a>
         </div>
     </div>
@@ -117,7 +117,6 @@
                            data-domain="{{ strtolower($domain) }}"
                            style="animation-delay: {{ $index * 0.03 }}s">
                             <div class="flex items-center justify-between">
-                                {{-- Favicon (otomatis) + fallback icon --}}
                                 <div class="favicon-wrap">
                                     <img src="https://www.google.com/s2/favicons?domain={{ $domain }}&sz=64"
                                          alt="{{ $domain }}"
@@ -140,13 +139,12 @@
                     @endforeach
                 </div>
 
-                {{-- Empty state saat search tidak menemukan hasil --}}
                 <div id="noResultBox" class="hidden text-center py-20 bg-white dark:bg-gray-800/50 rounded-2xl border border-dashed border-gray-300 dark:border-gray-600">
                     <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Tidak ada card yang cocok</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm">Coba kata kunci lain, atau cek ejaan pencarianmu.</p>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Coba kata kunci lain.</p>
                 </div>
             @else
                 <div class="text-center py-20 bg-white dark:bg-gray-800/50 rounded-2xl border border-dashed border-gray-300 dark:border-gray-600">
@@ -155,10 +153,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Belum ada card</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm max-w-sm mx-auto">
-                        Login dan tambahkan link eksternal pertamamu melalui dashboard.
-                    </p>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Belum ada card.</h3>
                 </div>
             @endif
 
