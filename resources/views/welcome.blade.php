@@ -8,7 +8,7 @@
 
     @include('partials.theme')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <style>
         #loadingScreen {
             opacity: 1;
@@ -162,7 +162,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -171,7 +171,7 @@
         }
 
         html.dark .grid-pattern::before {
-            background-image: 
+            background-image:
                 linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
         }
@@ -327,34 +327,6 @@
 
     <main class="min-h-screen bg-gray-50 dark:bg-gray-900 grid-pattern transition-colors">
         <div class="relative max-w-6xl mx-auto px-4 py-10 w-full z-10">
-            
-            <div class="text-center mb-12 mt-20 animate-slide-up delay-1">
-                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
-                    Welcome to <span class="text-emerald-600 dark:text-emerald-500">Class C</span>
-                </h1>
-                <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
-                    Platform manajemen tugas dan doksli untuk mahasiswa Informatika.
-                </p>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10 animate-slide-up delay-2">
-                <a href="{{ route('tasks.public') }}" 
-                class="gradient-shift group flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-0.5">
-                    <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                    </svg>
-                    Lihat Daftar Tugas
-                </a>
-                
-                <a href="{{ route('galeri') }}" 
-                class="gradient-shift group flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-gray-700/60 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-900 dark:text-white hover:text-white font-medium rounded-xl transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 shadow-lg hover:-translate-y-0.5">
-                    <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    Buka Gallery Doksli
-                </a>
-            </div>
-
             <div class="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 animate-slide-up delay-3">
                 <div onClick="window.location.href='{{ route('tasks.public') }}'" class="glass-card animated-border p-6 rounded-2xl shadow-sm hover:shadow-emerald-500/20 transition cursor-pointer group">
                     <div class="icon-hover text-emerald-600 dark:text-emerald-500 mb-2 inline-block">
@@ -392,7 +364,7 @@
                         </h2>
                         <span class="text-xs text-gray-500 dark:text-gray-400">{{ $announcements->count() }} pengumuman</span>
                     </div>
-                    
+
                     <div class="space-y-3">
                         @foreach($announcements as $announcement)
                         <div onclick="openAnnouncementModal({{ $announcement->id }})" class="bg-gradient-to-r from-orange-50 to-white dark:from-orange-900/30 dark:to-gray-800/60 rounded-xl border border-orange-200 dark:border-orange-700/30 p-5 hover:border-orange-300 dark:hover:border-orange-600/50 transition group cursor-pointer">
@@ -402,7 +374,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
                                     </svg>
                                 </div>
-                                
+
                                 <div class="flex-1 min-w-0">
                                     <div class="flex flex-wrap items-center gap-2 mb-2">
                                         <h3 class="text-gray-900 dark:text-white font-semibold text-lg">{{ $announcement->title }}</h3>
@@ -410,9 +382,9 @@
                                             Baru
                                         </span>
                                     </div>
-                                    
+
                                     <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 whitespace-pre-wrap line-clamp-3">{{ $announcement->content }}</p>
-                                    
+
                                     <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
                                         <span class="flex items-center gap-1">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -446,10 +418,10 @@
                 @if(isset($latestTasks) && $latestTasks->count() > 0)
                     <div class="space-y-4">
                         @foreach($latestTasks as $index => $task)
-                        <div onclick="openTaskModal({{ $task->id }})" 
+                        <div onclick="openTaskModal({{ $task->id }})"
                             class="task-slide glass-card rounded-xl border border-gray-200 dark:border-gray-600/50 p-5 hover:border-emerald-300 dark:hover:border-emerald-500/40 group cursor-pointer animate-slide-up"
                             style="transition-delay: {{ 0.5 + ($index * 0.1) }}s">
-                            
+
                             <div class="flex items-center gap-2 mb-3 flex-wrap">
                                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium rounded-full border border-emerald-200 dark:border-emerald-800/30">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -475,14 +447,14 @@
                             </p>
 
                             <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700/50">
-                                
+
                                 <span class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
                                     <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                    
+
                                     <span>{{ $task->user->name ?? 'Unknown' }}</span>
-                                    
+
                                     <span class="w-1 h-1 rounded-full bg-gray-400 dark:bg-gray-600"></span>
-                                    
+
                                     <span class="text-emerald-600 dark:text-emerald-400/90 font-medium">
                                         {{ config('roles.list.' . ($task->user->role ?? 'user')) ?? ucfirst($task->user->role ?? 'user') }}
                                     </span>
@@ -493,7 +465,7 @@
                                     {{ $task->deadline_at->format('l, d M H:i') }}
                                 </span>
                             </div>
-                            
+
                         </div>
                         @endforeach
                     </div>
@@ -506,7 +478,32 @@
                     </div>
                 @endif
             </div>
+            <div class="text-center mb-12 mt-20 animate-slide-up delay-1">
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
+                    Welcome to <span class="text-emerald-600 dark:text-emerald-500">Class C</span>
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+                    Platform manajemen tugas dan doksli untuk mahasiswa Informatika.
+                </p>
+            </div>
 
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10 animate-slide-up delay-2">
+                <a href="{{ route('tasks.public') }}"
+                class="gradient-shift group flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-0.5">
+                    <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                    Lihat Daftar Tugas
+                </a>
+
+                <a href="{{ route('galeri') }}"
+                class="gradient-shift group flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-gray-700/60 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-900 dark:text-white hover:text-white font-medium rounded-xl transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 shadow-lg hover:-translate-y-0.5">
+                    <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Buka Gallery Doksli
+                </a>
+            </div>
         </div>
     </main>
     <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 mt-auto transition-colors">
@@ -528,7 +525,7 @@
         <div class="absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeTaskModal()"></div>
 
         <div class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-white dark:bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
-            
+
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex-shrink-0">
                 <h3 class="text-lg font-bold text-gray-900 dark:text-white">Detail Tugas</h3>
                 <button onclick="closeTaskModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg -mr-2">
@@ -592,7 +589,7 @@
         <div id="annModalBackdrop" class="absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeAnnouncementModal()"></div>
 
         <div id="annModalPanel" class="relative w-full sm:max-w-2xl mx-0 sm:mx-4 bg-white dark:bg-gray-800/60 backdrop-blur-md sm:rounded-2xl rounded-t-2xl border-0 sm:border border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh] opacity-0 translate-y-full sm:translate-y-4 sm:scale-95 transition-all duration-300 ease-out will-change-transform,opacity">
-            
+
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex-shrink-0">
                 <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <svg class="w-5 h-5 text-orange-500 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -667,7 +664,7 @@
         const toggleMenu = () => {
             mobileMenu.classList.toggle('-translate-x-full');
             sidebarOverlay.classList.toggle('hidden');
-            document.body.classList.toggle('overflow-hidden'); 
+            document.body.classList.toggle('overflow-hidden');
         };
 
         sidebarToggle?.addEventListener('click', toggleMenu);
@@ -703,7 +700,7 @@
                 const finalValue = {{ $totalActiveTasks ?? 0 }};
                 let current = 0;
                 const increment = Math.ceil(finalValue / 20);
-                
+
                 const animate = () => {
                     current += increment;
                     if (current >= finalValue) {
@@ -713,7 +710,7 @@
                         requestAnimationFrame(animate);
                     }
                 };
-                
+
                 if (finalValue > 0) animate();
             }
         });
@@ -786,25 +783,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loadingScreen');
             const mainContent = document.querySelector('main');
-            
+
             setTimeout(() => {
                 if (loadingScreen) {
                     loadingScreen.classList.add('fade-out');
                 }
-                
+
                 setTimeout(() => {
                     if (mainContent) {
                         mainContent.classList.add('ready');
                     }
                     document.body.style.overflow = '';
                 }, 200);
-                
+
                 setTimeout(() => {
                     if (loadingScreen) {
                         loadingScreen.style.display = 'none';
                     }
                 }, 400);
-                
+
             }, 1000);
         });
 
